@@ -29,6 +29,19 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
+import java.io.IOException;
+
+import okhttp3.logging.HttpLoggingInterceptor;
+import se.arbitur.geocoding.Callback;
+import se.arbitur.geocoding.Constants.AddressTypes;
+import se.arbitur.geocoding.Constants.LocationTypes;
+import se.arbitur.geocoding.Geocoder;
+import se.arbitur.geocoding.Geocoding;
+import se.arbitur.geocoding.Models.Coordinate;
+import se.arbitur.geocoding.Response;
+import se.arbitur.geocoding.Result;
+import se.arbitur.geocoding.ReverseGeocoding;
+
 
 /**
  * Created by venkatesh on 13/2/18.
@@ -45,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements
     Location mLastLocation;
     LocationRequest mLocationRequest;
 Activity activity;
+    private TextView _address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +68,14 @@ Activity activity;
         _latitude =  findViewById(R.id.latitude);
         _longitude =findViewById(R.id.longitude);
         _progressBar = findViewById(R.id.progressBar);
+        _address = findViewById(R.id.address);
+
+
+        Geocoder.loggingLevel = HttpLoggingInterceptor.Level.BASIC;
+
+//        addressSearch("H no 1-1 Thummapala");
+//
+
 
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -187,6 +209,10 @@ Activity activity;
                 _progressBar.setVisibility(View.INVISIBLE);
                 _latitude.setText("Latitude: " + String.valueOf(mLastLocation.getLatitude()));
                 _longitude.setText("Longitude: " + String.valueOf(mLastLocation.getLongitude()));
+
+                		coordinateSearch(new Coordinate(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+
+
             } else {
                 /*if there is no last known location. Which means the device has no data for the loction currently.
                 * So we will get the current location.
@@ -224,4 +250,55 @@ Activity activity;
     public void onProviderDisabled(String provider) {
 
     }
+
+    private void coordinateSearch(Coordinate coordinate) {
+        new ReverseGeocoding(coordinate, getString(R.string.geocoding_key))
+                .setLocationTypes(LocationTypes.ROOFTOP)
+                .setResultTypes(AddressTypes.STREET_ADDRESS)
+                .isSensor(true)
+                .fetch(geoCallback);
+    }
+
+
+    private String TAG = "MainActivity";
+    Callback geoCallback = new Callback() {
+        @Override
+        public void onResponse(Response response) {
+            Log.d(TAG, "Status code: " + response.getStatus());
+            Log.d(TAG, "Responses: " + response.getResults().length);
+
+            for (Result result : response.getResults()) {
+                Log.d(TAG, "   Formatted address: " + result.getFormattedAddress());
+                Log.d(TAG, "   Place ID: " + result.getPlaceId());
+                Log.d(TAG, "   Location: " + result.getGeometry().getLocation());
+                Log.d(TAG, "       Location type: " + result.getGeometry().getLocationType());
+                Log.d(TAG, "       SouthWest: " + result.getGeometry().getViewport().getSouthWest());
+                Log.d(TAG, "       NorthEast: " + result.getGeometry().getViewport().getNorthEast());
+                Log.d(TAG, "   Types:");
+                for (int i = 0; i < result.getAddressTypes().length; i++)
+                    Log.d(TAG, "       " + result.getAddressTypes()[i]);
+
+
+//                _address.setText(result.getFormattedAddress());
+
+            }
+        }
+
+        @Override
+        public void onFailed(Response response, IOException exception) {
+            Log.d(TAG, "Status code: " + response.getStatus());
+
+            if (response != null) Log.e(TAG, (response.getErrorMessage() == null) ? response.getStatus() : response.getErrorMessage());
+            else Log.e(TAG, exception.getLocalizedMessage());
+        }
+    };
+
+
+    private void addressSearch(String query) {
+        new Geocoding(query, getString(R.string.geocoding_key))
+                .setLanguage("sv")
+                .addComponent(AddressTypes.LOCALITY, "Stockholm")
+                .fetch(geoCallback);
+    }
+
 }
