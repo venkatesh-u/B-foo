@@ -68,7 +68,7 @@ public class Main2Activity extends AppCompatActivity
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_get_location) {
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, MapsActivityCurrentPlace.class));
             return true;
         }
 
