@@ -6,8 +6,10 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -20,8 +22,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -31,6 +35,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -188,6 +194,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
+
+//            confirmOtp();
+
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
@@ -336,8 +345,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                showProgress(false);
+
+                confirmOtp();
 //                finish();
-                startActivity(new Intent(LoginActivity.this, Main2Activity.class));
+//                startActivity(new Intent(LoginActivity.this, Main2Activity.class));
 
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -353,7 +365,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-
     //this method will register the user
     private void register() {
 
@@ -367,68 +378,81 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        password = editTextPassword.getText().toString().trim();
 //        phone = editTextPhone.getText().toString().trim();
 
-        //Again creating the string request
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.REGISTER_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        loading.dismiss();
-                        try {
-                            //Creating the json object from the response
-                            JSONObject jsonResponse = new JSONObject(response);
 
-                            //If it is success
-                            if(jsonResponse.getString(Config.TAG_RESPONSE).equalsIgnoreCase("Success")){
-                                //Asking user to confirm otp
-                                confirmOtp();
-                            }else{
-                                //If not successful user may already have registered
-                                Toast.makeText(LoginActivity.this, "Username or Phone number already registered", Toast.LENGTH_LONG).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        loading.dismiss();
-                        Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                //Adding the parameters to the request
-                params.put(Config.KEY_USERNAME, username);
-                params.put(Config.KEY_PASSWORD, password);
-                params.put(Config.KEY_PHONE, phone);
-                return params;
+            public void run() {
+                loading.dismiss();
+                confirmOtp();
             }
-        };
+        }, 3000);
+
+
+        //Again creating the string request
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.REGISTER_URL,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        loading.dismiss();
+//                        try {
+//                            //Creating the json object from the response
+//                            JSONObject jsonResponse = new JSONObject(response);
+//
+//                            //If it is success
+//                            if(jsonResponse.getString(Config.TAG_RESPONSE).equalsIgnoreCase("Success")){
+//                                //Asking user to confirm otp
+//                                confirmOtp();
+//                            }else{
+//                                //If not successful user may already have registered
+//                                Toast.makeText(LoginActivity.this, "Username or Phone number already registered", Toast.LENGTH_LONG).show();
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        loading.dismiss();
+//                        Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+//                    }
+//                }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<>();
+//                //Adding the parameters to the request
+//                params.put(Config.KEY_USERNAME, username);
+//                params.put(Config.KEY_PASSWORD, password);
+//                params.put(Config.KEY_PHONE, phone);
+//                return params;
+//            }
+//        };
 
         //Adding request the the queue
-        requestQueue.add(stringRequest);
+//        requestQueue.add(stringRequest);
     }
 
 
-
-    private void confirmOtp() throws JSONException {
+    private void confirmOtp() {
+//         throws JSONException
+//    }
         //Creating a LayoutInflater object for the dialog box
         LayoutInflater li = LayoutInflater.from(this);
         //Creating a view to get the dialog box
         View confirmDialog = li.inflate(R.layout.dialog_confirm, null);
 
         //Initizliaing confirm button fo dialog box and edittext of dialog box
-        buttonConfirm = (AppCompatButton) confirmDialog.findViewById(R.id.buttonConfirm);
-        editTextConfirmOtp = (EditText) confirmDialog.findViewById(R.id.editTextOtp);
+        AppCompatButton buttonConfirm = (AppCompatButton) confirmDialog.findViewById(R.id.buttonConfirm);
+//        editTextConfirmOtp = (EditText) confirmDialog.findViewById(R.id.editTextOtp);
 
         //Creating an alertdialog builder
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         //Adding our dialog box to the view of alert dialog
         alert.setView(confirmDialog);
+        alert.setCancelable(false);
 
         //Creating an alert dialog
         final AlertDialog alertDialog = alert.create();
@@ -444,42 +468,54 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 alertDialog.dismiss();
 
                 //Displaying a progressbar
-                final ProgressDialog loading = ProgressDialog.show(MainActivity.this, "Authenticating", "Please wait while we check the entered code", false,false);
+                final ProgressDialog loading = ProgressDialog.show(LoginActivity.this, "Authenticating",
+                        "Please wait while we check the entered code", false, false);
 
-                //Getting the user entered otp from edittext
-                final String otp = editTextConfirmOtp.getText().toString().trim();
+                loading.dismiss();
 
-                //Creating an string request
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.CONFIRM_URL,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                //if the server response is success
-                                if(response.equalsIgnoreCase("success")){
-                                    //dismissing the progressbar
-                                    loading.dismiss();
+                //Starting a new activity
+                startActivity(new Intent(LoginActivity.this, MapsActivityCurrentPlace.class));
 
-                                    //Starting a new activity
-                                    startActivity(new Intent(MainActivity.this, Success.class));
-                                }else{
-                                    //Displaying a toast if the otp entered is wrong
-                                    Toast.makeText(MainActivity.this,"Wrong OTP Please Try Again",Toast.LENGTH_LONG).show();
-                                    try {
-                                        //Asking user to enter otp again
-                                        confirmOtp();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                alertDialog.dismiss();
-                                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }){
+
+//                //Getting the user entered otp from edittext
+//                final String otp = editTextConfirmOtp.getText().toString().trim();
+//
+//                //Creating an string request
+//                StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.CONFIRM_URL,
+//                        new Response.Listener<String>() {
+//                            @Override
+//                            public void onResponse(String response) {
+//                                //if the server response is success
+//                                if(response.equalsIgnoreCase("success")){
+//                                    //dismissing the progressbar
+//                                    loading.dismiss();
+//
+//                                    //Starting a new activity
+//                                    startActivity(new Intent(MainActivity.this, Success.class));
+//                                }else{
+//                                    //Displaying a toast if the otp entered is wrong
+//                                    Toast.makeText(MainActivity.this,"Wrong OTP Please Try Again",Toast.LENGTH_LONG).show();
+//                                    try {
+//                                        //Asking user to enter otp again
+//                                        confirmOtp();
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            }
+//                        },
+//                        new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                alertDialog.dismiss();
+//                                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+//                            }
+
+//
 
                 }
 
+        });
+
+    }
+}

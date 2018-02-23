@@ -17,7 +17,8 @@
         android:id="@+id/editTextOtp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:maxLength="4"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/buttonConfirm"
