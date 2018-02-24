@@ -94,7 +94,7 @@ public class MyApplication extends Application implements Application.ActivityLi
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static eTekiService service;
+	public static WebService service;
 	public HashMap mTrackers = new HashMap();
 	public static Retrofit mRetrofit;
 
@@ -179,10 +179,10 @@ public class MyApplication extends Application implements Application.ActivityLi
 		return mRetrofit;
 	}
 
-	public static synchronized eTekiService getSerivce()
+	public static synchronized WebService getSerivce()
 	{
 		if (service == null) {
-			service = getRetrofit().create(eTekiService.class);
+			service = getRetrofit().create(WebService.class);
 		}
 		return service;
 	}
@@ -413,4 +413,3 @@ public class MyApplication extends Application implements Application.ActivityLi
 //
 	}
 
-}

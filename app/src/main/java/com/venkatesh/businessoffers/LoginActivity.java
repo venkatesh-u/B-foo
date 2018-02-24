@@ -474,7 +474,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 loading.dismiss();
 
                 //Starting a new activity
-                startActivity(new Intent(LoginActivity.this, MapsActivityCurrentPlace.class));
+                startActivity(new Intent(LoginActivity.this, Main2Activity.class));
 
 
 //                //Getting the user entered otp from edittext

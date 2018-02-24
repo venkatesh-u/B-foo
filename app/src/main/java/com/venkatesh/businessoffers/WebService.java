@@ -24,7 +24,7 @@ import retrofit.http.Url;
  * Created by RameshK on 24-11-2015.
  */
 
-public interface eTekiService {
+public interface WebService {
 
     /**
      * Static Data*/
