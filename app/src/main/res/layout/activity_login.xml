@@ -75,6 +75,14 @@
                     android:hint="Mobile" />
             </android.support.design.widget.TextInputLayout>
 
+
+
+            <!--<com.amzur.eteki.intlphoneinput.IntlPhoneInput-->
+                <!--android:id="@+id/my_phone_input"-->
+                <!--style="@style/margins"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+
             <Button
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"

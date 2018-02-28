@@ -17,4 +17,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="margins">
+        <item name="android:ems">10</item>
+        <item name="android:layout_marginStart">@dimen/view_margin_10</item>
+        <item name="android:layout_marginEnd">@dimen/view_margin_10</item>
+        <item name="android:textSize">@dimen/editext_login_textsize</item>
+        <item name="android:padding">@dimen/editext_login_padding</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>

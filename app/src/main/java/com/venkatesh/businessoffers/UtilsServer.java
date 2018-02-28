@@ -6,7 +6,7 @@ import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amzur.eteki.pojos.StaticDataPojo;
+//import com.amzur.eteki.pojos.StaticDataPojo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -224,27 +224,27 @@ public static final String URL =
         }
         return retMap;
     }*/
-    public static ArrayList<StaticDataPojo> ArraytoMap(JSONArray array) throws JSONException {
-
-        ArrayList<StaticDataPojo> list = new ArrayList<>();
-        StaticDataPojo pojo;
-        for (int i = 0; i < array.length(); i++) {
-            pojo = new StaticDataPojo();
-            pojo.id = i + 1;
-            JSONObject value = array.getJSONObject(i);
-            Iterator<String> key = value.keys();
-            while (key.hasNext()) {
-                String string = key.next();
-                ////Log.i(string, value.getString(string));
-
-                pojo.name = string;
-                pojo.description = value.get(string).toString();
-            }
-            list.add(pojo);
-        }
-        return list;
-
-    }
+//    public static ArrayList<StaticDataPojo> ArraytoMap(JSONArray array) throws JSONException {
+//
+//        ArrayList<StaticDataPojo> list = new ArrayList<>();
+//        StaticDataPojo pojo;
+//        for (int i = 0; i < array.length(); i++) {
+//            pojo = new StaticDataPojo();
+//            pojo.id = i + 1;
+//            JSONObject value = array.getJSONObject(i);
+//            Iterator<String> key = value.keys();
+//            while (key.hasNext()) {
+//                String string = key.next();
+//                ////Log.i(string, value.getString(string));
+//
+//                pojo.name = string;
+//                pojo.description = value.get(string).toString();
+//            }
+//            list.add(pojo);
+//        }
+//        return list;
+//
+//    }
 
     public static Map<String, Object> toMap(JSONObject object) throws JSONException {
         Map<String, Object> map = new HashMap<>();
