@@ -24,7 +24,7 @@ import retrofit.http.Url;
  * Created by RameshK on 24-11-2015.
  */
 
-public interface eTekiService {
+public interface WebService {
 
     /**
      * Static Data*/
@@ -799,5 +799,8 @@ public interface eTekiService {
     @GET("/company_payments/invoice_details")
     Call<ResponseBody> getInvoiceDetails(@Query("invoice_id") String invoice_id);
 
+    // Offers
 
+    @POST("/create_user")
+    Call<ResponseBody> userRegister(@Query("phone_number") String phone_number, @Query("name") String name, @Query("email") String email);
 }

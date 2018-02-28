@@ -94,7 +94,7 @@ public class MyApplication extends Application implements Application.ActivityLi
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static eTekiService service;
+	public static WebService service;
 	public HashMap mTrackers = new HashMap();
 	public static Retrofit mRetrofit;
 
@@ -152,8 +152,8 @@ public class MyApplication extends Application implements Application.ActivityLi
 					Request original = chain.request();
 					Request request = original.newBuilder()
 							.header("device-type", "ANDROID")
-							.header("device-id", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID))
-							.header("authentication-token", PreferencesData.getToken(MyApplication.getInstance()))
+//							.header("device-id", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID))
+//							.header("authentication-token", PreferencesData.getToken(MyApplication.getInstance()))
 							//.header("refresh_token",PreferencesData.getString(MyApplication.getInstance(),PreferencesData.PREF_REFRESH_TOKEN))
 							.method(original.method(), original.body())
 							.build();
@@ -179,10 +179,10 @@ public class MyApplication extends Application implements Application.ActivityLi
 		return mRetrofit;
 	}
 
-	public static synchronized eTekiService getSerivce()
+	public static synchronized WebService getSerivce()
 	{
 		if (service == null) {
-			service = getRetrofit().create(eTekiService.class);
+			service = getRetrofit().create(WebService.class);
 		}
 		return service;
 	}
@@ -412,5 +412,4 @@ public class MyApplication extends Application implements Application.ActivityLi
 //		}
 //
 	}
-
 

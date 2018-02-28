@@ -6,7 +6,7 @@ import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.amzur.eteki.pojos.StaticDataPojo;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,11 +21,12 @@ import java.util.Map;
 public class UtilsServer {
 
 
-public static final String URL =
+public static final String URL ="http://172.16.18.93:9999";
+
 //        "http://172.16.19.52:3000/";
 
 //        url;
- "https://qa-api.eteki.com/";
+// "https://qa-api.eteki.com/";
 
 //  public static final String URL =
 // "https://demo-api.eteki.com";

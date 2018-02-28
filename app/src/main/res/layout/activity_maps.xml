@@ -1,7 +1,41 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    class="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    tools:context="com.venkatesh.businessoffers.MapsActivityCurrentPlace" />
+    android:orientation="vertical"
+    >
+
+    <fragment
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        tools:context="com.venkatesh.businessoffers.MapsActivityCurrentPlace" />
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp">
+        <EditText android:id="@+id/et_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Search for area, street name..." />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_confirm_location"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/confirm_location"
+        android:background="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textColor="@color/color_white"/>
+
+</LinearLayout>

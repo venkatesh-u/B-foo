@@ -73,7 +73,7 @@ Activity activity;
 
         Geocoder.loggingLevel = HttpLoggingInterceptor.Level.BASIC;
 
-//        addressSearch("H no 1-1 Thummapala");
+        addressSearch("H no 1-1 Thummapala");
 //
 
 

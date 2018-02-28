@@ -1,5 +1,7 @@
 package com.venkatesh.businessoffers;
 
+import android.*;
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -13,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,13 +39,28 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import se.arbitur.geocoding.Callback;
+import se.arbitur.geocoding.Constants.AddressTypes;
+import se.arbitur.geocoding.Geocoding;
+import se.arbitur.geocoding.Response;
+import se.arbitur.geocoding.Result;
+
 /**
  * An activity that displays a map showing the place at the device's current location.
  */
 public class MapsActivityCurrentPlace extends AppCompatActivity
         implements OnMapReadyCallback {
 
-    private static final String TAG = MapsActivityCurrentPlace.class.getSimpleName();
+//    private static final String TAG = "Ma";
+//            MapsActivityCurrentPlace.class.getSimpleName();
+    @BindView(R.id.et_location)
+    EditText etLocation;
+    @BindView(R.id.btn_confirm_location)
+    Button btnConfirmLocation;
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
 
@@ -86,6 +105,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
 
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
+        ButterKnife.bind(this);
 
         // Construct a GeoDataClient.
         mGeoDataClient = Places.getGeoDataClient(this, null);
@@ -101,7 +121,71 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
+//        etLocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+
+
+        btnConfirmLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               String loc = etLocation.getText().toString();
+
+                if (!loc.equals("")){
+                            addressSearch(loc);
+
+                }
+            }
+        });
     }
+
+
+
+    private String TAG = "MyCurrentLocation";
+    Callback geoCallback = new Callback() {
+        @Override
+        public void onResponse(Response response) {
+            Log.d(TAG, "Status code: " + response.getStatus());
+            Log.d(TAG, "Responses: " + response.getResults().length);
+
+            for (Result result : response.getResults()) {
+                Log.d(TAG, "   Formatted address: " + result.getFormattedAddress());
+                Log.d(TAG, "   Place ID: " + result.getPlaceId());
+                Log.d(TAG, "   Location: " + result.getGeometry().getLocation());
+                Log.d(TAG, "       Location type: " + result.getGeometry().getLocationType());
+                Log.d(TAG, "       SouthWest: " + result.getGeometry().getViewport().getSouthWest());
+                Log.d(TAG, "       NorthEast: " + result.getGeometry().getViewport().getNorthEast());
+                Log.d(TAG, "   Types:");
+                for (int i = 0; i < result.getAddressTypes().length; i++)
+                    Log.d(TAG, "       " + result.getAddressTypes()[i]);
+
+
+//                _address.setText(result.getFormattedAddress());
+
+            }
+        }
+
+        @Override
+        public void onFailed(Response response, IOException exception) {
+            Log.d(TAG, "Status code: " + response.getStatus());
+
+            if (response != null) Log.e(TAG, (response.getErrorMessage() == null) ? response.getStatus() : response.getErrorMessage());
+            else Log.e(TAG, exception.getLocalizedMessage());
+        }
+    };
+
+
+    private void addressSearch(String loc) {
+
+            new Geocoding(loc, getString(R.string.geocoding_key))
+                    .setLanguage("sv")
+                    .addComponent(AddressTypes.LOCALITY, "Stockholm")
+                    .fetch(geoCallback);
+        }
 
     /**
      * Saves the state of the map when the activity is paused.
@@ -117,6 +201,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
 
     /**
      * Sets up the options menu.
+     *
      * @param menu The options menu.
      * @return Boolean.
      */
@@ -128,6 +213,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
 
     /**
      * Handles a click on the menu option to get a place.
+     *
      * @param item The menu item to handle.
      * @return Boolean.
      */
@@ -200,14 +286,13 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = task.getResult();
-                            if(mLastKnownLocation !=null){
+                            if (mLastKnownLocation != null) {
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(mLastKnownLocation.getLatitude(),
                                                 mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                            }else {
+                            } else {
                                 Toast.makeText(MapsActivityCurrentPlace.this, "Coudn't detect location", Toast.LENGTH_SHORT).show();
                             }
-
 
 
                         } else {
@@ -220,7 +305,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
                     }
                 });
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
@@ -236,12 +321,12 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
          * onRequestPermissionsResult.
          */
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
@@ -306,7 +391,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
                                     mLikelyPlaceNames[i] = (String) placeLikelihood.getPlace().getName();
                                     Log.d("Location place", mLikelyPlaceNames[i]);
                                     mLikelyPlaceAddresses[i] = (String) placeLikelihood.getPlace().getAddress();
-                                    Log.d("Location address", mLikelyPlaceAddresses[i] );
+                                    Log.d("Location address", mLikelyPlaceAddresses[i]);
                                     mLikelyPlaceAttributions[i] = (String) placeLikelihood.getPlace().getAttributions();
 //                                    Log.d("Location attr", mLikelyPlaceAttributions[i] );
                                     mLikelyPlaceLatLngs[i] = placeLikelihood.getPlace().getLatLng();
@@ -399,7 +484,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
                 mLastKnownLocation = null;
                 getLocationPermission();
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }

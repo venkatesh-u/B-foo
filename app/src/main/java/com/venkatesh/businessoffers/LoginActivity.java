@@ -36,10 +36,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.okhttp.ResponseBody;
+
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -70,6 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private TextView editTextPhone, editTextname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +88,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        editTextname = (EditText) findViewById(R.id.et_username);
+        editTextPhone = findViewById(R.id.editTextPhone);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -160,18 +170,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
+        editTextname.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
+        String username = editTextname.getText().toString();
+        String phone_number = editTextPhone.getText().toString();
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+        if (!TextUtils.isEmpty(username) ) {
+//            && !isPasswordValid(username)
+            editTextname.setError(getString(R.string.error_invalid_password));
+            focusView = editTextname;
             cancel = true;
         }
 
@@ -186,6 +198,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(phone_number)) {
+            editTextPhone.setError(getString(R.string.error_field_required));
+            focusView = editTextPhone;
+            cancel = true;
+        }
+//        else if (!isEmailValid(email)) {
+//            editTextPhone.setError(getString(R.string.error_invalid_email));
+//            focusView = editTextPhone;
+//            cancel = true;
+//        }
+//
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -197,9 +223,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 //            confirmOtp();
 
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+
+            callServerLogin(email, username, phone_number);
+
+//            mAuthTask = new UserLoginTask(email, "password");
+//            mAuthTask.execute((Void) null);
         }
+    }
+
+    private void callServerLogin(String email, String username, String phone_number) {
+       Call<ResponseBody> call =  MyApplication.getSerivce().userRegister(phone_number, username, email);
+       call.enqueue(new Listener(new ));
+
+//        call.enqueue(new Callback<ResponseBody>(new ) {
+//            @Override
+//            public void onResponse(Response<ResponseBody> response, Retrofit retrofit) {
+//                showProgress(false);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable t) {
+//                showProgress(false);
+//
+//            }
+//        });
     }
 
     private boolean isEmailValid(String email) {
@@ -474,7 +522,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 loading.dismiss();
 
                 //Starting a new activity
-                startActivity(new Intent(LoginActivity.this, MapsActivityCurrentPlace.class));
+                startActivity(new Intent(LoginActivity.this, Main2Activity.class));
 
 
 //                //Getting the user entered otp from edittext
