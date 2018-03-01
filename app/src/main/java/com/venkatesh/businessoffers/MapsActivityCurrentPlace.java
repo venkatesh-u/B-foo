@@ -96,6 +96,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
 
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
@@ -105,7 +106,6 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
 
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_maps);
-        ButterKnife.bind(this);
 
         // Construct a GeoDataClient.
         mGeoDataClient = Places.getGeoDataClient(this, null);
