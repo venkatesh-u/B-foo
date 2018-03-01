@@ -2,6 +2,8 @@ package com.venkatesh.businessoffers;
 
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
+import com.venkatesh.businessoffers.pojos.BusinessAccountPojo;
+import com.venkatesh.businessoffers.utilities.UtilsServer;
 
 import java.util.Map;
 
@@ -800,7 +802,10 @@ public interface WebService {
     Call<ResponseBody> getInvoiceDetails(@Query("invoice_id") String invoice_id);
 
     // Offers
-
     @POST("/create_user")
     Call<ResponseBody> userRegister(@Query("phone_number") String phone_number, @Query("name") String name, @Query("email") String email);
+
+//Create Busineess account
+    @POST("/create_baccount")
+    Call<ResponseBody> createBusinessAccountServer(@Body BusinessAccountPojo pojo);
 }

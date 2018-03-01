@@ -1,73 +1,32 @@
 package com.venkatesh.businessoffers;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Environment;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
-import android.support.v4.content.FileProvider;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
-import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.amzur.eteki.Home;
-import com.amzur.eteki.chat.ChatService;
-import com.amzur.eteki.db.DataBase;
-import com.amzur.eteki.interfaces.AlertAnswerListener;
-import com.amzur.eteki.interfaces.ConformationListener;
-import com.amzur.eteki.interfaces.DialogDismissListner;
-import com.amzur.eteki.pojos.Model;
-import com.amzur.eteki.pojos.ProfilePicPojo;
-import com.crashlytics.android.Crashlytics;
+
 import com.squareup.okhttp.ResponseBody;
+import com.venkatesh.businessoffers.utilities.UtilsServer;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -81,7 +40,6 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.Call;
 
 public class Utils {
@@ -264,19 +222,19 @@ public class Utils {
 
 
 
-    public static void showSnackBar(Activity act, String msg) {
-        if (msg.contains(UtilsServer.MSG_AUTH_FAILED)) {
-            parseJsonFeed(act);
-        }
-        final Snackbar bar = Snackbar.make(act.findViewById(android.R.id.content), msg, Snackbar.LENGTH_INDEFINITE);
-        bar.setAction("OK", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bar.dismiss();
-            }
-        });
-        bar.show();
-    }
+//    public static void showSnackBar(Activity act, String msg) {
+//        if (msg.contains(UtilsServer.MSG_AUTH_FAILED)) {
+//            parseJsonFeed(act);
+//        }
+//        final Snackbar bar = Snackbar.make(act.findViewById(android.R.id.content), msg, Snackbar.LENGTH_INDEFINITE);
+//        bar.setAction("OK", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                bar.dismiss();
+//            }
+//        });
+//        bar.show();
+//    }
     public static boolean validateEmail(String email) {
         return email.trim().matches(UtilsServer.EMAIL_PATTERN);
     }
@@ -287,31 +245,31 @@ public class Utils {
         v.requestFocus();
     }
 
-    public static void showErrorAlert(String title, final String msg, final Activity act, final ErrorAlertCompleted alertCompleted) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        if (title != null)
-            builder.setTitle(title);
-        else
-            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        builder.setMessage(msg);
-        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
-            parseJsonFeed(act);
-        }
-        builder.setNeutralButton("OK",
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        if (alertCompleted != null)
-                            alertCompleted.OkaySelected();
-
-                    }
-                });
-        builder.setCancelable(false);
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.show();
-    }
+//    public static void showErrorAlert(String title, final String msg, final Activity act, final ErrorAlertCompleted alertCompleted) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+//        if (title != null)
+//            builder.setTitle(title);
+//        else
+//            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        builder.setMessage(msg);
+//        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
+//            parseJsonFeed(act);
+//        }
+//        builder.setNeutralButton("OK",
+//                new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        if (alertCompleted != null)
+//                            alertCompleted.OkaySelected();
+//
+//                    }
+//                });
+//        builder.setCancelable(false);
+//        builder.setIcon(android.R.drawable.ic_dialog_alert);
+//        builder.show();
+//    }
 
     /////////
     /*public static Snackbar showIndefiniteSnackBar(Activity act,String msg){
@@ -329,75 +287,75 @@ public class Utils {
         return bar;
     }*/
 
-    public static void showSuccessAlert(String title, final String msg, final Activity act, final ErrorAlertCompleted alertCompleted) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        builder.setTitle(title);
-        builder.setMessage(msg);
-        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
-            parseJsonFeed(act);
-        }
-        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-                if (alertCompleted != null)
-                    alertCompleted.OkaySelected();
-            }
-        });
-        builder.setCancelable(false);
-        //builder.setIcon(android.R.drawable.ic_menu_save);
-        builder.show();
-    }
-
-    public static AlertDialog globalShowSuccessAlert(String title, final String msg, final Activity act, final ErrorAlertCompleted alertCompleted) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        builder.setTitle(title);
-        builder.setMessage(msg);
-        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
-            parseJsonFeed(act);
-        }
-        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-                if (alertCompleted != null)
-                    alertCompleted.OkaySelected();
-            }
-        });
-        builder.setCancelable(false);
-        //builder.setIcon(android.R.drawable.ic_menu_save);
+//    public static void showSuccessAlert(String title, final String msg, final Activity act, final ErrorAlertCompleted alertCompleted) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+//        builder.setTitle(title);
+//        builder.setMessage(msg);
+//        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
+//            parseJsonFeed(act);
+//        }
+//        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                dialog.dismiss();
+//                if (alertCompleted != null)
+//                    alertCompleted.OkaySelected();
+//            }
+//        });
+//        builder.setCancelable(false);
+//        //builder.setIcon(android.R.drawable.ic_menu_save);
 //        builder.show();
-        return builder.create();
-    }
+//    }
+//
+//    public static AlertDialog globalShowSuccessAlert(String title, final String msg, final Activity act, final ErrorAlertCompleted alertCompleted) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+//        builder.setTitle(title);
+//        builder.setMessage(msg);
+//        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
+//            parseJsonFeed(act);
+//        }
+//        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                dialog.dismiss();
+//                if (alertCompleted != null)
+//                    alertCompleted.OkaySelected();
+//            }
+//        });
+//        builder.setCancelable(false);
+//        //builder.setIcon(android.R.drawable.ic_menu_save);
+////        builder.show();
+//        return builder.create();
+//    }
 
 
 
-    public static void showSnackBarLongTime(Activity act, String msg) {
-        if (act == null)
-            act = MyApplication.getInstance().getCurrentActivity();
-        if (msg.contains(UtilsServer.MSG_AUTH_FAILED)) {
-            parseJsonFeed(act);
-        }
-        Snackbar.make(act.findViewById(android.R.id.content), msg, Snackbar.LENGTH_LONG).show();
+//    public static void showSnackBarLongTime(Activity act, String msg) {
+//        if (act == null)
+//            act = MyApplication.getInstance().getCurrentActivity();
+//        if (msg.contains(UtilsServer.MSG_AUTH_FAILED)) {
+//            parseJsonFeed(act);
+//        }
+//        Snackbar.make(act.findViewById(android.R.id.content), msg, Snackbar.LENGTH_LONG).show();
+//
+//    }
+//
+//    public static Snackbar showSnackBarLongTime2(Activity act, String msg) {
+//        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
+//            parseJsonFeed(act);
+//        }
+//        return Snackbar.make(act.findViewById(android.R.id.content), msg, Snackbar.LENGTH_LONG);
+//
+//    }
 
-    }
-
-    public static Snackbar showSnackBarLongTime2(Activity act, String msg) {
-        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
-            parseJsonFeed(act);
-        }
-        return Snackbar.make(act.findViewById(android.R.id.content), msg, Snackbar.LENGTH_LONG);
-
-    }
-
-    public static void showSnackBarShortTime(Activity act, String msg) {
-        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
-            parseJsonFeed(act);
-        }
-        Snackbar.make(act.findViewById(android.R.id.content), msg, Snackbar.LENGTH_SHORT).show();
-    }
+//    public static void showSnackBarShortTime(Activity act, String msg) {
+//        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
+//            parseJsonFeed(act);
+//        }
+//        Snackbar.make(act.findViewById(android.R.id.content), msg, Snackbar.LENGTH_SHORT).show();
+//    }
 
     public static void showSnackBarOnTop(Activity act, String str) {
 
@@ -409,190 +367,190 @@ public class Utils {
         snack.show();
     }
 
-    public static void showReasonDialog(Activity act, final DialogDismissListner listner) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(act);
-        LayoutInflater inflater = act.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.custom_dialog, null);
-        dialogBuilder.setView(dialogView);
+//    public static void showReasonDialog(Activity act, final DialogDismissListner listner) {
+//        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(act);
+//        LayoutInflater inflater = act.getLayoutInflater();
+//        final View dialogView = inflater.inflate(R.layout.custom_dialog, null);
+//        dialogBuilder.setView(dialogView);
+//
+//        final TextInputEditText edt = (TextInputEditText) dialogView.findViewById(R.id.et_suggestion);
+//
+//        dialogBuilder.setTitle("Reschedule Interview");
+//        dialogBuilder.setMessage("Do you want to reschedule this interview?");
+//        dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                if (listner != null) {
+//                    listner.Success(new Model(edt.getText().toString(), null, 0, 0));
+//                }
+////do something with edt.getText().toString();
+//            }
+//        });
+//        dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//
+//            }
+//        });
+//        AlertDialog b = dialogBuilder.create();
+//        b.show();
+//    }
 
-        final TextInputEditText edt = (TextInputEditText) dialogView.findViewById(R.id.et_suggestion);
-
-        dialogBuilder.setTitle("Reschedule Interview");
-        dialogBuilder.setMessage("Do you want to reschedule this interview?");
-        dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                if (listner != null) {
-                    listner.Success(new Model(edt.getText().toString(), null, 0, 0));
-                }
-//do something with edt.getText().toString();
-            }
-        });
-        dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-
-            }
-        });
-        AlertDialog b = dialogBuilder.create();
-        b.show();
-    }
-
-    public static void showConformationDialog(Activity act, String title, String msg, final ConformationListener cl) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        if (title != null)
-            builder.setTitle(title);
-        else
-            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        builder.setMessage(msg);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (cl != null)
-                    cl.conformed();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.setCancelable(false);
-        builder.setIcon(R.drawable.ic_info_outline_black);
-        builder.show();
-
-    }
-
-    public static Dialog globalShowConfirmationDialog(Activity act, String title, String msg, final ConformationListener cl) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        if (title != null)
-            builder.setTitle(title);
-        else
-            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        builder.setMessage(msg);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (cl != null)
-                    cl.conformed();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        builder.setCancelable(true);
-        builder.setIcon(R.drawable.ic_info_outline_black);
-//        Dialog dialog=builder.create();
+//    public static void showConformationDialog(Activity act, String title, String msg, final ConformationListener cl) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+//        if (title != null)
+//            builder.setTitle(title);
+//        else
+//            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
+//
+//        builder.setMessage(msg);
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                if (cl != null)
+//                    cl.conformed();
+//            }
+//        });
+//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//        builder.setCancelable(false);
+//        builder.setIcon(R.drawable.ic_info_outline_black);
 //        builder.show();
-        return builder.create();
+//
+//    }
+//
+//    public static Dialog globalShowConfirmationDialog(Activity act, String title, String msg, final ConformationListener cl) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+//        if (title != null)
+//            builder.setTitle(title);
+//        else
+//            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
+//
+//        builder.setMessage(msg);
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                if (cl != null)
+//                    cl.conformed();
+//            }
+//        });
+//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        builder.setCancelable(true);
+//        builder.setIcon(R.drawable.ic_info_outline_black);
+////        Dialog dialog=builder.create();
+////        builder.show();
+//        return builder.create();
+//
+//    }
 
-    }
+//    public static void showYesOrNoDialog(Activity act, String title, String msg, final AlertAnswerListener cl) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+//        if (title != null)
+//            builder.setTitle(title);
+//        else
+//            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        builder.setMessage(msg);
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//                if (cl != null)
+//                    cl.onAnswered(true);
+//            }
+//        });
+//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//                if (cl != null)
+//                    cl.onAnswered(false);
+//            }
+//        });
+//
+//        builder.setCancelable(false);
+//        builder.setIcon(R.drawable.ic_info_black_36dp);
+//        builder.show();
+//    }
 
-    public static void showYesOrNoDialog(Activity act, String title, String msg, final AlertAnswerListener cl) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        if (title != null)
-            builder.setTitle(title);
-        else
-            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        builder.setMessage(msg);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                if (cl != null)
-                    cl.onAnswered(true);
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//    public static void showSuccessDialog(Activity act, String title, String msg, final ConformationListener cl) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+//        if (title != null)
+//            builder.setTitle(title);
+//        else
+//            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        builder.setMessage(msg);
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                if (cl != null)
+//                    cl.conformed();
+//            }
+//        });
+//        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                dialog.dismiss();
+//            }
+//        });
+//        builder.setCancelable(false);
+//
+//        builder.show();
+//    }
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                if (cl != null)
-                    cl.onAnswered(false);
-            }
-        });
+//    public static void showOkayDialog(Activity act, String title, String msg, final ConformationListener cl) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+//        if (title != null)
+//            builder.setTitle(title);
+//        else
+//            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        builder.setMessage(msg);
+//        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//                if (cl != null)
+//                    cl.conformed();
+//            }
+//        });
+//        builder.setCancelable(true);
+//        builder.show();
+//    }
 
-        builder.setCancelable(false);
-        builder.setIcon(R.drawable.ic_info_black_36dp);
-        builder.show();
-    }
-
-    public static void showSuccessDialog(Activity act, String title, String msg, final ConformationListener cl) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        if (title != null)
-            builder.setTitle(title);
-        else
-            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        builder.setMessage(msg);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (cl != null)
-                    cl.conformed();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-            }
-        });
-        builder.setCancelable(false);
-
-        builder.show();
-    }
-
-    public static void showOkayDialog(Activity act, String title, String msg, final ConformationListener cl) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-        if (title != null)
-            builder.setTitle(title);
-        else
-            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        builder.setMessage(msg);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                if (cl != null)
-                    cl.conformed();
-            }
-        });
-        builder.setCancelable(true);
-        builder.show();
-    }
-
-    public static void helpDialog(Context context) {
-        final TextView message = new TextView(context);
-        // i.e.: R.string.dialog_message =>
-        // "Test this dialog following the link to dtmilano.blogspot.com"
-        final SpannableString s =
-                new SpannableString(context.getText(R.string.help_content));
-        Linkify.addLinks(s, Linkify.ALL);
-        //Linkify.addLinks(s,Linkify.PHONE_NUMBERS);
-        message.setText(s);
-        message.setMovementMethod(LinkMovementMethod.getInstance());
-        message.setPadding(10, 10, 10, 10);
-
-        new AlertDialog.Builder(context)
-                .setTitle(R.string.help)
-                .setCancelable(true)
-                .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .setView(message)
-                .create().show();
-    }
+//    public static void helpDialog(Context context) {
+//        final TextView message = new TextView(context);
+//        // i.e.: R.string.dialog_message =>
+//        // "Test this dialog following the link to dtmilano.blogspot.com"
+//        final SpannableString s =
+//                new SpannableString(context.getText(R.string.help_content));
+//        Linkify.addLinks(s, Linkify.ALL);
+//        //Linkify.addLinks(s,Linkify.PHONE_NUMBERS);
+//        message.setText(s);
+//        message.setMovementMethod(LinkMovementMethod.getInstance());
+//        message.setPadding(10, 10, 10, 10);
+//
+//        new AlertDialog.Builder(context)
+//                .setTitle(R.string.help)
+//                .setCancelable(true)
+//                .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .setView(message)
+//                .create().show();
+//    }
 
     public static void signOut(final Activity act) {
 
@@ -601,28 +559,28 @@ public class Utils {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {
                 if (pos == 0) {
-                    parseJsonFeed(act);
+//                    parseJsonFeed(act);
                 }
             }
         }, null, true, act));
     }
-
-    public static void parseJsonFeed(Activity act) {
-        ChatService.unSubScribeToAll();
-        SingleTon.getInstance().setTempBitmap(null);
-        act.stopService(new Intent(act, ChatService.class));
-        Intent in = new Intent(act, Home.class);
-        in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PreferencesData.putBool(false, PreferencesData.PREF_LOGIN);
-        PreferencesData.putBool(true, PreferencesData.PREF_ON_OFFLINE);
-        PreferencesData.putProifleFilled(act, false);
-        PreferencesData.putBool(false, PreferencesData.PREF_PROFILE_SUBSCRIPTION);
-        PreferencesData.putAutoSourceStatus(act, false);
-        StaticDataPuller.storeImageUrls(new ProfilePicPojo(), act);
-        SingleTon.getInstance().setFirstTimeAppearing(true);
-        act.startActivity(in);
-
-    }
+//
+//    public static void parseJsonFeed(Activity act) {
+////        ChatService.unSubScribeToAll();
+////        SingleTon.getInstance().setTempBitmap(null);
+//        act.stopService(new Intent(act, ChatService.class));
+//        Intent in = new Intent(act, Home.class);
+//        in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        PreferencesData.putBool(false, PreferencesData.PREF_LOGIN);
+//        PreferencesData.putBool(true, PreferencesData.PREF_ON_OFFLINE);
+//        PreferencesData.putProifleFilled(act, false);
+//        PreferencesData.putBool(false, PreferencesData.PREF_PROFILE_SUBSCRIPTION);
+//        PreferencesData.putAutoSourceStatus(act, false);
+//        StaticDataPuller.storeImageUrls(new ProfilePicPojo(), act);
+//        SingleTon.getInstance().setFirstTimeAppearing(true);
+//        act.startActivity(in);
+//
+//    }
 
     public static Map getParamsInMap(String[] keys, Object[] values) {
         Map<String, Object> params = new HashMap<>();
@@ -634,7 +592,7 @@ public class Utils {
         return params;
     }
 
-    public static void zoomImageFromThumb(final View thumbView, int imageResId, Activity act) {
+   /* public static void zoomImageFromThumb(final View thumbView, int imageResId, Activity act) {
         // If there"s an animation in progress, cancel it
         // immediately and proceed with this one.
         //Log.i("Called", "Zooming image");
@@ -772,7 +730,7 @@ public class Utils {
                 mCurrentAnimator = set;
             }
         });
-    }
+    }*/
 
     public static String makeUnderLine(String skills) {
         String[] list = skills.split(",");
@@ -875,62 +833,62 @@ public class Utils {
         return false;
     }
 
-    public static void exportDB(Activity activity) {
-        File sd = Environment.getExternalStorageDirectory();
-        File data = Environment.getDataDirectory();
-        FileChannel source;
-        FileChannel destination;
-        String currentDBPath =//activity.getDatabasePath(DataBase.DB_NAME).getAbsolutePath();
-                "/data/" + "com.amzur.eteki" + "/databases/eTeki.db";
-        String backupDBPath = "eteki.db";
-        File currentDB = activity.getDatabasePath(DataBase.DB_NAME);
-        //new File(data, currentDBPath);
-        File backupDB = new File(sd, backupDBPath);
-        try {
-            source = new FileInputStream(currentDB).getChannel();
-            destination = new FileOutputStream(backupDB).getChannel();
-            destination.transferFrom(source, 0, source.size());
-            source.close();
-            destination.close();
-            Toast.makeText(activity, "DB Exported!", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{""});
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Backup");
-            intent.putExtra(Intent.EXTRA_TEXT, "");
-            intent.setType("application/octet-stream");
-            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(backupDB));
-            activity.startActivity(Intent.createChooser(intent, "Send Email"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void exportDB(Activity activity) {
+//        File sd = Environment.getExternalStorageDirectory();
+//        File data = Environment.getDataDirectory();
+//        FileChannel source;
+//        FileChannel destination;
+//        String currentDBPath =//activity.getDatabasePath(DataBase.DB_NAME).getAbsolutePath();
+//                "/data/" + "com.amzur.eteki" + "/databases/eTeki.db";
+//        String backupDBPath = "eteki.db";
+//        File currentDB = activity.getDatabasePath(DataBase.DB_NAME);
+//        //new File(data, currentDBPath);
+//        File backupDB = new File(sd, backupDBPath);
+//        try {
+//            source = new FileInputStream(currentDB).getChannel();
+//            destination = new FileOutputStream(backupDB).getChannel();
+//            destination.transferFrom(source, 0, source.size());
+//            source.close();
+//            destination.close();
+//            Toast.makeText(activity, "DB Exported!", Toast.LENGTH_LONG).show();
+//            Intent intent = new Intent(Intent.ACTION_SEND);
+//            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{""});
+//            intent.putExtra(Intent.EXTRA_SUBJECT, "Backup");
+//            intent.putExtra(Intent.EXTRA_TEXT, "");
+//            intent.setType("application/octet-stream");
+//            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(backupDB));
+//            activity.startActivity(Intent.createChooser(intent, "Send Email"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * Check file size
      */
-    public static int getFileSize(String path) {
-        try {
-            File file = new File(path);
-            long length = file.length();
-            length = length / 1024 / 1024;
-            //Log.i("File Path : " + file.getPath(), " File size : " + length + " MB");
-            return (int) length;
-        } catch (Exception e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-            return 0;
-        }
-    }
+//    public static int getFileSize(String path) {
+//        try {
+//            File file = new File(path);
+//            long length = file.length();
+//            length = length / 1024 / 1024;
+//            //Log.i("File Path : " + file.getPath(), " File size : " + length + " MB");
+//            return (int) length;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Crashlytics.logException(e);
+//            return 0;
+//        }
+//    }
 
-    /**
-     * Check file extensions
-     */
-    public static boolean checkFileExtension(String filePath, String[] arrayFormats) {
-        CustomStringList formats = new CustomStringList();
-        formats.addAll(Arrays.asList(arrayFormats));
-        //Log.i("formatslist", formats.toString());
-        return formats.contains(filePath.substring(filePath.lastIndexOf(".") + 1));
-    }
+//    /**
+//     * Check file extensions
+//     */
+//    public static boolean checkFileExtension(String filePath, String[] arrayFormats) {
+//        CustomStringList formats = new CustomStringList();
+//        formats.addAll(Arrays.asList(arrayFormats));
+//        //Log.i("formatslist", formats.toString());
+//        return formats.contains(filePath.substring(filePath.lastIndexOf(".") + 1));
+//    }
 
 
     /**
@@ -972,31 +930,31 @@ public class Utils {
      * @param data       data to be added to the textview.
      * @param visibility if true then the textview visibility is gone if data is null or empty otherwise setText as None Provided.
      */
-    public static void setDataToTextview(View v, String data, boolean visibility) {
-        boolean flag;
-        flag = data == null || data.equals("") ? false : true;
-        if (flag) {
-            ((TextView) v).setText(data);
-        } else {
-            if (visibility)
-                v.setVisibility(View.GONE);
-            else
-                ((TextView) v).setText(R.string.none_provided);
-        }
-    }
+//    public static void setDataToTextview(View v, String data, boolean visibility) {
+//        boolean flag;
+//        flag = data == null || data.equals("") ? false : true;
+//        if (flag) {
+//            ((TextView) v).setText(data);
+//        } else {
+//            if (visibility)
+//                v.setVisibility(View.GONE);
+//            else
+//                ((TextView) v).setText(R.string.none_provided);
+//        }
+//    }
 
     /**
      * This method network error dialogue when network is not available.
      */
-    public static void showNetworkErrorDilaogue(Activity activity) {
-        Utils.showErrorAlert("Network error", "Please turn on your mobile data", activity, new Utils.ErrorAlertCompleted() {
-            @Override
-            public void OkaySelected() {
-
-            }
-        });
-
-    }
+//    public static void showNetworkErrorDilaogue(Activity activity) {
+//        Utils.showErrorAlert("Network error", "Please turn on your mobile data", activity, new Utils.ErrorAlertCompleted() {
+//            @Override
+//            public void OkaySelected() {
+//
+//            }
+//        });
+//
+//    }
 
     /**
      * Returns the date in device date format.
@@ -1040,13 +998,13 @@ public class Utils {
         return formattedDtae;
     }
 
-    /**
-     * sets data to textview from the jsonobject send by the server.
-     * @param jsonObject
-     * @param key_required key of the value.
-     * @param textView textview to which the value has to be set.
-     */
-    public static void setDataToUiElements(JSONObject jsonObject,String key_required,TextView textView){
+//    /**
+//     * sets data to textview from the jsonobject send by the server.
+//     * @param jsonObject
+//     * @param key_required key of the value.
+//     * @param textView textview to which the value has to be set.
+//     */
+ /*   public static void setDataToUiElements(JSONObject jsonObject,String key_required,TextView textView){
         if(jsonObject!=null){
             if(!jsonObject.isNull(key_required)){
                 try {
@@ -1061,7 +1019,7 @@ public class Utils {
         }
 
     }
-
+*/
     public static Date getDateForString(String dat) {
         DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
         inputFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -1174,6 +1132,7 @@ public class Utils {
      * @param responce responce from the server.
      * @param activity activity from which this method is being called.
      */
+/*
     public static void showSuccessMessageFromNetworkCall(String responce, Activity activity) {
         JSONObject jsonObject = null;
         try {
@@ -1185,6 +1144,7 @@ public class Utils {
             e.printStackTrace();
         }
     }
+*/
 
 
     /**Set the dialog width to parent and height to wrapContent*/
@@ -1268,148 +1228,148 @@ public class Utils {
     }
 
     /**
-     * Background Async Task to download file
-     */
-   public static class DownloadFileFromURLL extends AsyncTask<String, String, String> {
-
-        private Activity mContext;
-        public DownloadFileFromURLL(Context context) {
-            mContext = (Activity) context;
-        }
-
-        /**
-         * Before starting background thread
-         * Show Progress Bar Dialog
-         */
-        String fileType, file_name;
-        boolean isFailed=false;
-        @Override
-        protected void onPreExecute() {
-            setProgress(mContext);
-            super.onPreExecute();
-
-        }
-
-        /**
-         * Downloading file in background thread
-         */
-        @Override
-        protected String doInBackground(String... f_url) {
-            int count;
-            try {
-
-                String s = f_url[0];
-                fileType = s.substring(s.lastIndexOf(".") + 1);
-
-                file_name = getFileNameFromUrl(s);
-
-                URL url = new URL(f_url[0]);
-                URLConnection conection = url.openConnection();
-                String extr = Environment.getExternalStorageDirectory().toString();
-                File mFolder = new File(extr + "/eteki/");
-                if (!mFolder.exists()) {
-                    mFolder.mkdir();
-                }
-                // getting file length
-                int lenghtOfFile = conection.getContentLength();
-                conection.connect();
-                // input stream to read file - with 8k buffer
-                InputStream input = new BufferedInputStream(url.openStream(), 8192);
-
-//                "/agreement."+fileType
-
-                // Output stream to write file
-                OutputStream output = new FileOutputStream(mFolder.getAbsolutePath() + "/"+file_name);
-
-                byte data[] = new byte[1024];
-
-                long total = 0;
-
-                while ((count = input.read(data)) != -1) {
-                    total += count;
-                    // publishing the progress....
-                    // After this onProgressUpdate will be called
-                    //      publishProgress("" + (int) ((total * 100) / lenghtOfFile));
-
-                    // writing data to file
-                    output.write(data, 0, count);
-                }
-
-                // flushing output
-                output.flush();
-
-                // closing streams
-                output.close();
-                input.close();
-
-            } catch (Exception e) {
-                ColoredSnackbar.warning(Utils.showSnackBarLongTime2(mContext, "Download failed please contact CSR")).show();
-                Crashlytics.logException(e);
-                e.printStackTrace();
-                isFailed = true;
-
-            }
-            return null;
-        }
-
-
-        /**
-         * Updating progress bar
-         */
-        protected void onProgressUpdate(String... progress) {
-            // setting progress percentage
-            pDialog.setProgress(Integer.parseInt(progress[0]));
-            if (progress[0].equals(100)) {
-                Utils.showSnackBarLongTime2(mContext, "Report saved successfully").setAction("OPEN", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        File file = new File(Environment.getExternalStorageDirectory() + "/eteki/" +"/"+file_name);
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(Uri.fromFile(file) , "application/"+fileType);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        mContext.startActivity(intent);
-                    }
-                }).show();
-            }
-        }
-
-        /**
-         * After completing background task
-         * Dismiss the progress dialog
-         **/
-        @Override
-        protected void onPostExecute( String file_url) {
-            pDialog.dismiss();
-            if (!isFailed)
-                Utils.showSnackBarLongTime2(mContext, "Report saved successfully").setAction("OPEN", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String filepath = Environment.getExternalStorageDirectory() + "/eteki/" + "/"+file_name;
-                        File file = new File(filepath);
-                        String authority = BuildConfig.APPLICATION_ID + ".fileprovider";
-                        try {
-                            Uri uri = FileProvider.getUriForFile(mContext, authority, file);
-                            String mimeType = Utils.getMimeType(filepath);
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setDataAndType(uri, mimeType);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                            boolean isIntentSafe = Utils.hasMatchingActivity(mContext, intent);
-                            if (isIntentSafe)
-                                mContext.startActivity(intent);
-                            else
-                                Toast.makeText(mContext, mContext.getString(R.string.no_app_found), Toast.LENGTH_LONG).show();
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).show();
-            // dismiss the dialog after the file was downloaded
-        }
-
-    }
+//     * Background Async Task to download file
+//     */
+//   public static class DownloadFileFromURLL extends AsyncTask<String, String, String> {
+//
+//        private Activity mContext;
+//        public DownloadFileFromURLL(Context context) {
+//            mContext = (Activity) context;
+//        }
+//
+//        /**
+//         * Before starting background thread
+//         * Show Progress Bar Dialog
+//         */
+//        String fileType, file_name;
+//        boolean isFailed=false;
+//        @Override
+//        protected void onPreExecute() {
+//            setProgress(mContext);
+//            super.onPreExecute();
+//
+//        }
+//
+//        /**
+//         * Downloading file in background thread
+//         */
+//        @Override
+//        protected String doInBackground(String... f_url) {
+//            int count;
+//            try {
+//
+//                String s = f_url[0];
+//                fileType = s.substring(s.lastIndexOf(".") + 1);
+//
+//                file_name = getFileNameFromUrl(s);
+//
+//                URL url = new URL(f_url[0]);
+//                URLConnection conection = url.openConnection();
+//                String extr = Environment.getExternalStorageDirectory().toString();
+//                File mFolder = new File(extr + "/eteki/");
+//                if (!mFolder.exists()) {
+//                    mFolder.mkdir();
+//                }
+//                // getting file length
+//                int lenghtOfFile = conection.getContentLength();
+//                conection.connect();
+//                // input stream to read file - with 8k buffer
+//                InputStream input = new BufferedInputStream(url.openStream(), 8192);
+//
+////                "/agreement."+fileType
+//
+//                // Output stream to write file
+//                OutputStream output = new FileOutputStream(mFolder.getAbsolutePath() + "/"+file_name);
+//
+//                byte data[] = new byte[1024];
+//
+//                long total = 0;
+//
+//                while ((count = input.read(data)) != -1) {
+//                    total += count;
+//                    // publishing the progress....
+//                    // After this onProgressUpdate will be called
+//                    //      publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+//
+//                    // writing data to file
+//                    output.write(data, 0, count);
+//                }
+//
+//                // flushing output
+//                output.flush();
+//
+//                // closing streams
+//                output.close();
+//                input.close();
+//
+//            } catch (Exception e) {
+//                ColoredSnackbar.warning(Utils.showSnackBarLongTime2(mContext, "Download failed please contact CSR")).show();
+//                Crashlytics.logException(e);
+//                e.printStackTrace();
+//                isFailed = true;
+//
+//            }
+//            return null;
+//        }
+//
+//
+//        /**
+//         * Updating progress bar
+//         */
+//        protected void onProgressUpdate(String... progress) {
+//            // setting progress percentage
+//            pDialog.setProgress(Integer.parseInt(progress[0]));
+//            if (progress[0].equals(100)) {
+//                Utils.showSnackBarLongTime2(mContext, "Report saved successfully").setAction("OPEN", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        File file = new File(Environment.getExternalStorageDirectory() + "/eteki/" +"/"+file_name);
+//                        Intent intent = new Intent(Intent.ACTION_VIEW);
+//                        intent.setDataAndType(Uri.fromFile(file) , "application/"+fileType);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                        mContext.startActivity(intent);
+//                    }
+//                }).show();
+//            }
+//        }
+//
+//        /**
+//         * After completing background task
+//         * Dismiss the progress dialog
+//         **/
+//        @Override
+//        protected void onPostExecute( String file_url) {
+//            pDialog.dismiss();
+//            if (!isFailed)
+//                Utils.showSnackBarLongTime2(mContext, "Report saved successfully").setAction("OPEN", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        String filepath = Environment.getExternalStorageDirectory() + "/eteki/" + "/"+file_name;
+//                        File file = new File(filepath);
+//                        String authority = BuildConfig.APPLICATION_ID + ".fileprovider";
+//                        try {
+//                            Uri uri = FileProvider.getUriForFile(mContext, authority, file);
+//                            String mimeType = Utils.getMimeType(filepath);
+//                            Intent intent = new Intent(Intent.ACTION_VIEW);
+//                            intent.setDataAndType(uri, mimeType);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//                            boolean isIntentSafe = Utils.hasMatchingActivity(mContext, intent);
+//                            if (isIntentSafe)
+//                                mContext.startActivity(intent);
+//                            else
+//                                Toast.makeText(mContext, mContext.getString(R.string.no_app_found), Toast.LENGTH_LONG).show();
+//
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }).show();
+//            // dismiss the dialog after the file was downloaded
+//        }
+//
+//    }
 
     private static String getFileNameFromUrl(String file_url) {
         String fileName = file_url.substring(file_url.lastIndexOf('/') + 1);
@@ -1427,59 +1387,59 @@ public class Utils {
         return extension.equalsIgnoreCase("odt");
     }
 
+//
+//    /**Dialog with icon and animation*/
+//    public static void showSweetAlertDialog(Activity act, String title, String msg, int successType) {
+//        new SweetAlertDialog(act, successType)
+//                .setTitleText(title)
+//                .setContentText(msg)
+//                .show();
+//    }
+//
+//    public static SweetAlertDialog globalShowSweetAlertDialog(Activity act, String title, String msg, int successType) {
+//        SweetAlertDialog dialog = new SweetAlertDialog(act, successType);
+//        dialog.setTitleText(title)
+//                .setContentText(msg)
+//                .show();
+//        return dialog;
+//    }
 
-    /**Dialog with icon and animation*/
-    public static void showSweetAlertDialog(Activity act, String title, String msg, int successType) {
-        new SweetAlertDialog(act, successType)
-                .setTitleText(title)
-                .setContentText(msg)
-                .show();
-    }
 
-    public static SweetAlertDialog globalShowSweetAlertDialog(Activity act, String title, String msg, int successType) {
-        SweetAlertDialog dialog = new SweetAlertDialog(act, successType);
-        dialog.setTitleText(title)
-                .setContentText(msg)
-                .show();
-        return dialog;
-    }
+//    public static void showSnackbarInChat(final Activity act, String msg){
+//        Utils.showSnackBarLongTime2(act, msg).setAction("OPEN", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent("receiverForChat");
+//                LocalBroadcastManager.getInstance(act).sendBroadcast(intent);
+//            }
+//        }).show();
+//    }
 
-
-    public static void showSnackbarInChat(final Activity act, String msg){
-        Utils.showSnackBarLongTime2(act, msg).setAction("OPEN", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent("receiverForChat");
-                LocalBroadcastManager.getInstance(act).sendBroadcast(intent);
-            }
-        }).show();
-    }
-
-    /*Help dialog in Navigation drawer of all user types**/
-    public static Dialog globalHelpDialog(Activity activity){
-        final TextView message = new TextView(activity);
-        // i.e.: R.string.dialog_message =>
-        // "Test this dialog following the link to dtmilano.blogspot.com"
-        final SpannableString s = new SpannableString(activity.getText(R.string.help_content));
-        Linkify.addLinks(s, Linkify.ALL);
-        //Linkify.addLinks(s,Linkify.PHONE_NUMBERS);
-        message.setText(s);
-        message.setMovementMethod(LinkMovementMethod.getInstance());
-        message.setPadding(10, 10, 10, 10);
-
-        alertHelpDialog = new android.app.AlertDialog.Builder(activity).setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).create();
-        alertHelpDialog.setTitle(R.string.help);
-        alertHelpDialog.setCancelable(true);
-        alertHelpDialog.setView(message);
-//        alertHelpDialog.show();
-        return alertHelpDialog;
-
-    }
+//    /*Help dialog in Navigation drawer of all user types**/
+//    public static Dialog globalHelpDialog(Activity activity){
+//        final TextView message = new TextView(activity);
+//        // i.e.: R.string.dialog_message =>
+//        // "Test this dialog following the link to dtmilano.blogspot.com"
+//        final SpannableString s = new SpannableString(activity.getText(R.string.help_content));
+//        Linkify.addLinks(s, Linkify.ALL);
+//        //Linkify.addLinks(s,Linkify.PHONE_NUMBERS);
+//        message.setText(s);
+//        message.setMovementMethod(LinkMovementMethod.getInstance());
+//        message.setPadding(10, 10, 10, 10);
+//
+//        alertHelpDialog = new android.app.AlertDialog.Builder(activity).setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        }).create();
+//        alertHelpDialog.setTitle(R.string.help);
+//        alertHelpDialog.setCancelable(true);
+//        alertHelpDialog.setView(message);
+////        alertHelpDialog.show();
+//        return alertHelpDialog;
+//
+//    }
 
     public static String convertGMTtoUTC(String inputString) {
         DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");

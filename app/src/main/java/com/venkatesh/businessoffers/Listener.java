@@ -1,6 +1,7 @@
 package com.venkatesh.businessoffers;
 
 import android.app.Activity;
+import android.widget.Toast;
 
 
 import com.squareup.okhttp.ResponseBody;
@@ -58,7 +59,8 @@ public class Listener implements Callback<ResponseBody> {
             if(!mActivity.isFinishing() && dialog!=null && dialog.isShowing())
                 dialog.dismiss();
             if (!response.isSuccess()) {
-                Utils.showSnackBarLongTime(mActivity, Utils.ERROR_SOMETHING+"..");
+                Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
+//                Utils.showSnackBarLongTime(mActivity, Utils.ERROR_SOMETHING+"..");
                 listner.onSuccess(response.message(), 2, null);
             } else {
                 String res = response.body().string();
@@ -80,16 +82,22 @@ public class Listener implements Callback<ResponseBody> {
         if (!obj.isNull("message")) {
             try {
 //                obj.getJSONArray("message").getString(0)
-                Utils.showSnackBarLongTime(mActivity, obj.getJSONArray("message").getString(0));
+//                Utils.showSnackBarLongTime(mActivity, obj.getJSONArray("message").getString(0));
+                Toast.makeText(mActivity, obj.getJSONArray("message").getString(0), Toast.LENGTH_SHORT).show();
+
             } catch (JSONException e) {
                 e.printStackTrace();
-                Utils.showSnackBar(mActivity, Utils.ERROR_SOMETHING);
+
+                Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
+
             } finally {
                 listner.onSuccess(obj.toString(), 2, null);
             }
         } else {
 
-            Utils.showSnackBar(mActivity, Utils.ERROR_SOMETHING);
+//            Utils.showSnackBar(mActivity, Utils.ERROR_SOMETHING);
+            Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
+
             listner.onSuccess("", 2, null);
         }
     }

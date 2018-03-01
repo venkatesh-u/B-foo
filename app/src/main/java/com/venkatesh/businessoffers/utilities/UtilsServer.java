@@ -1,4 +1,4 @@
-package com.venkatesh.businessoffers;
+package com.venkatesh.businessoffers.utilities;
 
 import android.content.Context;
 import android.graphics.Color;

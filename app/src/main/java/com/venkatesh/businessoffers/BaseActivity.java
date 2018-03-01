@@ -8,8 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.amzur.eteki.dialog.CustomDialog;
-import com.amzur.eteki.network.ConnectivityReceiver;
+import com.venkatesh.businessoffers.Dialogs.CustomDialog;
 
 public class BaseActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
 

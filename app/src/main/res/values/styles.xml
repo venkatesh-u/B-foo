@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -19,13 +19,35 @@
 
     <style name="margins">
         <item name="android:ems">10</item>
-        <item name="android:layout_marginStart">@dimen/view_margin_10</item>
-        <item name="android:layout_marginEnd">@dimen/view_margin_10</item>
+        <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/view_margin_10</item>
+        <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/view_margin_10</item>
         <item name="android:textSize">@dimen/editext_login_textsize</item>
         <item name="android:padding">@dimen/editext_login_padding</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="textview_header" parent="@style/textview_name">
+        <item name="android:textSize">@dimen/text_header</item>
+    </style>
+
+    <!--<style name="textview_name" parent="@style/textview_parent">-->
+        <!--<item name="android:textSize">@dimen/text_name</item>-->
+        <!--<item name="android:textStyle">bold</item>-->
+    <!--</style>-->
+
+    <style name="textview_parent">
+        <item name="android:textColor">@color/textcolor_light_grey</item>
+        <item name="android:typeface">sans</item>
+    </style>
+    <style name="textview_header_normal" parent="@style/textview_header">
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="textview_name" parent="@style/textview_parent" tools:ignore="DuplicateDefinition">
+        <item name="android:textSize">@dimen/text_name</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

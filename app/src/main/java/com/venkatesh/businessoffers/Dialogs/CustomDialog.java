@@ -9,8 +9,9 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.amzur.eteki.R;
-import com.amzur.eteki.customviews.ProgressWheel;
+import com.venkatesh.businessoffers.R;
+import com.venkatesh.businessoffers.customViews.ProgressWheel;
+
 
 public class CustomDialog extends Dialog {
 
