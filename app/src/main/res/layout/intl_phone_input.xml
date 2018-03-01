@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+    <Spinner
+        android:layout_width="40dp"
+        android:paddingRight="1dp"
+        android:paddingEnd="1dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/intl_phone_edit__country"
+        android:dropDownWidth="350dp"
+        tools:ignore="RtlSymmetry" />
+    <TextView
+        android:layout_marginLeft="@dimen/view_header_seperator"
+        android:id="@+id/tvCode"
+        android:layout_alignBaseline="@+id/intl_phone_edit__phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.venkatesh.businessoffers.customViews.MaterialEditText
+        android:layout_toRightOf="@+id/code"
+        style="@style/margins"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/intl_phone_edit__phone"
+        android:singleLine="true"
+        android:inputType="phone"
+        android:digits="@string/digits_numeric_only1"/>
+
+</LinearLayout>

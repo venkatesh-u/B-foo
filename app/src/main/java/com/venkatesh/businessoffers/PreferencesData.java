@@ -67,7 +67,6 @@ public class PreferencesData {
 		if(preferences!=null)
 				return preferences;
 		else
-
 		throw new RuntimeException(
 				"Prefs class not correctly instantiated please call Prefs.iniPrefs(context) in the Application class onCreate.");
 	}

@@ -22,11 +22,22 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_username">Please enter username</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
     <string name="confirm_location">Confirm Location</string>
+    <string name="user_name">Username</string>
+    <string name="category">Category</string>
+    <string name="service">Service</string>
+    <string name="keywords">Keywords</string>
+    <string name="address">Address</string>
+    <string name="error_invalid_phone">Enter valid phone number</string>
+    <string name="digits_numeric_only1">1234567890+</string>
+    <string name="item_image_contentDescription">Country flag</string>
+    <string name="item_preview_country">Israel (‫ישראל‬‎)</string>
+    <string name="item_preview_dialCode">+972</string>
+
 </resources>

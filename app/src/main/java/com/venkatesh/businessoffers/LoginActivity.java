@@ -3,50 +3,53 @@ package com.venkatesh.businessoffers;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+import android.app.ProgressDialog;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import org.json.JSONException;
+import com.squareup.okhttp.ResponseBody;
+import com.venkatesh.businessoffers.intlphoneinput.IntlPhoneInput;
+import com.venkatesh.businessoffers.pojos.BusinessAccountPojo;
+
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit.Call;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -60,6 +63,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+    @BindView(R.id.login_progress)
+    ProgressBar loginProgress;
+//    @BindView(R.id.et_category)
+    EditText etCategory;
+    @BindView(R.id.et_keyword)
+    EditText etKeyword;
+    @BindView(R.id.et_service)
+    EditText etService;
+    @BindView(R.id.et_address)
+    EditText etAddress;
+    @BindView(R.id.email_sign_in_button)
+    Button emailSignInButton;
+    @BindView(R.id.email_login_form)
+    LinearLayout emailLoginForm;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -67,31 +84,47 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     // UI references.
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
+    //    private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private EditText editTextPhone, editTextname;
+    private IntlPhoneInput primaryNumber;
+    BusinessAccountPojo pojo;
+    boolean isValidPhonneNumber;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        ButterKnife.bind(this);
+
+        mEmailView = findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editTextname = findViewById(R.id.et_username);
+        primaryNumber = findViewById(R.id.my_phone_input);
+        etCategory = findViewById(R.id.et_category);
+        etService = findViewById(R.id.et_service);
+        etKeyword = findViewById(R.id.et_keyword);
+        etAddress = findViewById(R.id.et_address);
+
+        primaryNumber.setOnValidityChange(new IntlPhoneInput.IntlPhoneInputListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
+            public void done(View view, boolean isValid) {
+                if (isValid){
+                    isValidPhonneNumber = true;
+                    Toast.makeText(mMyApp, "Valid number", Toast.LENGTH_SHORT).show();
+
+                }else {
+                    isValidPhonneNumber = false;
+                    primaryNumber.setError("Invalid Number..");
+                    Toast.makeText(mMyApp, "InValid number", Toast.LENGTH_SHORT).show();
+
                 }
-                return false;
+
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,11 +136,36 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    /**Validate phone number at server side*/
+//    private void validatePhoneNumber(String phoneNumber) {
+////        Toast.makeText(mMyApp, ""+phoneNumber, Toast.LENGTH_SHORT).show();
+//        Call<ResponseBody> call = MyApplication.getSerivce().validatePhoneNumber(phoneNumber);
+//        call.enqueue(new Listener(new RetrofitService() {
+//            @Override
+//            public void onSuccess(String result, int pos, Throwable t) {
+//                JSONObject obj = null;
+//                try {
+//                    obj = new JSONObject(result);
+//                    if (pos==0){
+//                        validPhoneNumber = true;
+//                    }else {
+//                        validPhoneNumber = false;
+//                        Utils.shakeView(SignupActivity.this, primaryNumber);
+//                        primaryNumber.setError(obj.getJSONArray("message").getString(0));
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, "Validating", true, this));
+//
+//
+//    }
+
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
         }
-
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -120,7 +178,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
             Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
+                    .setAction(android.R.string.ok, new OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
                         public void onClick(View v) {
@@ -159,32 +217,92 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Reset errors.
         mEmailView.setError(null);
-        mPasswordView.setError(null);
+        editTextname.setError(null);
 
-        // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        pojo   = new BusinessAccountPojo();
+                // Store values at the time of the login attempt.
+        pojo.email  = mEmailView.getText().toString();
+        pojo.name = editTextname.getText().toString();
+//        pojo.phone_number = editTextPhone.getText().toString();
+//        pojo.phone_number = String.valueOf(primaryNumber.getNationalNumber());
+
+
+       String num = primaryNumber.getNumber();
+        pojo.phone_number = num.substring(1);
+
+//        String phone = primaryNumber.getNationalNumber();
+//        primaryNumber.getNumber()
+
+        pojo.category= etCategory.getText().toString();
+        pojo.services = etService.getText().toString();
+        pojo.keywords= etKeyword.getText().toString();
+        pojo.address = etAddress.getText().toString();
+        pojo.latitude = "17.68";
+        pojo.longitude = "83.21";
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty( pojo.email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!isEmailValid( pojo.email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
         }
+
+        if (TextUtils.isEmpty(pojo.name)) {
+            editTextname.setError(getString(R.string.error_username));
+            focusView = editTextname;
+            cancel = true;
+        }
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(pojo.phone_number)) {
+            primaryNumber.setError(getString(R.string.error_field_required));
+            focusView = primaryNumber;
+            cancel = true;
+
+
+        }else if (!isValidPhonneNumber){
+            cancel = true;
+            primaryNumber.setError(getString(R.string.error_invalid_phone));
+            focusView = primaryNumber;
+        }
+
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(pojo.category)) {
+            etCategory.setError(getString(R.string.error_field_required));
+            focusView = etCategory;
+            cancel = true;
+        }
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(pojo.keywords)) {
+            etKeyword.setError(getString(R.string.error_field_required));
+            focusView = etKeyword;
+            cancel = true;
+        }
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(pojo.services)) {
+            etService.setError(getString(R.string.error_field_required));
+            focusView = etService;
+            cancel = true;
+        }
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(pojo.address)) {
+            etAddress.setError(getString(R.string.error_field_required));
+            focusView = etAddress;
+            cancel = true;
+        }
+
+
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -195,11 +313,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
 
-//            confirmOtp();
 
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+           createBusinessAccount(pojo);
+
+
+           //            confirmOtp();
+//            mAuthTask = new UserLoginTask(email, "password");
+//            mAuthTask.execute((Void) null);
         }
+    }
+
+
+    private void createBusinessAccount(BusinessAccountPojo pojo) {
+        Call<ResponseBody> call = MyApplication.getSerivce().createBusinessAccountServer(pojo);
+        call.enqueue(new Listener(new RetrofitService() {
+            @Override
+            public void onSuccess(String result, int pos, Throwable t) {
+
+                if (pos == 0) {
+                    Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    showProgress(false);
+
+                } else {
+                    showProgress(false);
+
+                }
+            }
+        }, "Registering...", true, this));
     }
 
     private boolean isEmailValid(String email) {
@@ -352,8 +492,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //                startActivity(new Intent(LoginActivity.this, Main2Activity.class));
 
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+//                mPasswordView.setError(getString(R.string.error_incorrect_password));
+//                mPasswordView.requestFocus();
             }
         }
 
@@ -461,7 +601,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         alertDialog.show();
 
         //On the click of the confirm button from alert dialog
-        buttonConfirm.setOnClickListener(new View.OnClickListener() {
+        buttonConfirm.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Hiding the alert dialog
@@ -513,7 +653,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 //
 
-                }
+            }
 
         });
 

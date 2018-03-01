@@ -1,10 +1,11 @@
-package com.venkatesh.businessoffers;
+package com.venkatesh.businessoffers.utilities;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 
 import org.json.JSONArray;
@@ -20,11 +21,12 @@ import java.util.Map;
 public class UtilsServer {
 
 
-public static final String URL =
+public static final String URL ="http://172.16.18.93:9999";
+
 //        "http://172.16.19.52:3000/";
 
 //        url;
- "https://qa-api.eteki.com/";
+// "https://qa-api.eteki.com/";
 
 //  public static final String URL =
 // "https://demo-api.eteki.com";

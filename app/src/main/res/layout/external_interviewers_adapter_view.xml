@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:padding="@dimen/view_margin_10">
+
+    <RelativeLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <CheckBox
+            android:id="@+id/cbSelect"
+            android:layout_width="@dimen/dash_button_height"
+            android:layout_height="@dimen/dash_button_height"
+            android:layout_margin="5dp"
+            android:paddingTop="10dp" />
+
+        <!--<com.amzur.eteki.customviews.ProgressProfileView-->
+            <!--android:id="@+id/ivProfile"-->
+            <!--android:layout_width="@dimen/participants_image"-->
+            <!--android:layout_height="@dimen/view_margin_40"-->
+            <!--android:layout_below="@+id/chat_user"-->
+            <!--android:layout_toRightOf="@+id/cbSelect"-->
+            <!--android:fitsSystemWindows="false"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:src="@drawable/avatar"-->
+            <!--android:transitionName="ROBOT"-->
+            <!--app:progress="0"-->
+            <!--app:progressRingCorner="ROUND"-->
+            <!--app:progressRingOutline="false"-->
+            <!--app:progressRingSize="1dp"-->
+            <!--tools:targetApi="lollipop" />-->
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/textview_header_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/view_margin"
+            android:layout_marginTop="@dimen/view_margin"
+            android:text="wsrfsdf" />
+
+        <!--android:layout_below="@+id/ll"-->
+
+        <!--android:layout_toRightOf="@+id/ivProfile"
+
+    <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ivProfile"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/textview_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/view_margin"
+                android:layout_toRightOf="@+id/ivProfile"
+                android:layout_weight="0.5"
+                android:text="JDJSADGJADGSD" />
+
+
+        </LinearLayout>
+
+        <!<TextView-->
+            <!--android:id="@+id/tvType"-->
+            <!--style="@style/textview_header_normal"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_below="@+id/ll"-->
+            <!--android:layout_marginLeft="@dimen/view_margin"-->
+            <!--android:layout_toRightOf="@+id/tvTitle"-->
+            <!--android:text="asjdgajsgd"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_alignParentRight="true" />-->
+    </RelativeLayout>
+</RelativeLayout>

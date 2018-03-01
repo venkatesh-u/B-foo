@@ -7,7 +7,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.multidex.MultiDex;
 
 import com.squareup.okhttp.Interceptor;
@@ -15,6 +14,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
+import com.venkatesh.businessoffers.utilities.UtilsServer;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -152,8 +152,8 @@ public class MyApplication extends Application implements Application.ActivityLi
 					Request original = chain.request();
 					Request request = original.newBuilder()
 							.header("device-type", "ANDROID")
-							.header("device-id", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID))
-							.header("authentication-token", PreferencesData.getToken(MyApplication.getInstance()))
+//							.header("device-id", Settings.Secure.getString(MyApplication.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID))
+//							.header("authentication-token", PreferencesData.getToken(MyApplication.getInstance()))
 							//.header("refresh_token",PreferencesData.getString(MyApplication.getInstance(),PreferencesData.PREF_REFRESH_TOKEN))
 							.method(original.method(), original.body())
 							.build();
