@@ -808,4 +808,10 @@ public interface WebService {
 //Create Busineess account
     @POST("/create_baccount")
     Call<ResponseBody> createBusinessAccountServer(@Body BusinessAccountPojo pojo);
+
+    @POST("/login")
+    Call<ResponseBody> loginIntoBusinessAccountServer(@Query("phone_number") String phone_num);
+
+    @POST("/send_otp")
+    Call<ResponseBody> sendOtpToServer(@Query("otp") String num);
 }

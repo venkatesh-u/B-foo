@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.okhttp.ResponseBody;
@@ -91,6 +92,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     private IntlPhoneInput primaryNumber;
     BusinessAccountPojo pojo;
     boolean isValidPhonneNumber;
+    TextView tv_go_to_loginpage;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +108,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         etService = findViewById(R.id.et_service);
         etKeyword = findViewById(R.id.et_keyword);
         etAddress = findViewById(R.id.et_address);
+        tv_go_to_loginpage = findViewById(R.id.tv_go_to_loginpage );
 
         primaryNumber.setOnValidityChange(new IntlPhoneInput.IntlPhoneInputListener() {
             @Override
@@ -134,6 +137,13 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        tv_go_to_loginpage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, LoginPage.class));
+            }
+        });
     }
 
     /**Validate phone number at server side*/
