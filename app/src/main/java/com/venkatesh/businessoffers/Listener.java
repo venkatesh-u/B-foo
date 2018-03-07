@@ -83,7 +83,7 @@ public class Listener implements Callback<ResponseBody> {
             try {
 //                obj.getJSONArray("message").getString(0)
 //                Utils.showSnackBarLongTime(mActivity, obj.getJSONArray("message").getString(0));
-                Toast.makeText(mActivity, obj.getJSONArray("message").getString(0), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, obj.getString("message"), Toast.LENGTH_SHORT).show();
 
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -63,54 +63,13 @@ public class LoginPage extends BaseActivity {
 
 
     private void attemptLogin() {
-//        if (mAuthTask != null) {
-//            return;
-//        }
-//
-//        // Reset errors.
-//        mEmailView.setError(null);
-//        editTextname.setError(null);
-//
-//        pojo   = new BusinessAccountPojo();
-//        // Store values at the time of the login attempt.
-//        pojo.email  = mEmailView.getText().toString();
-//        pojo.name = editTextname.getText().toString();
-//        pojo.phone_number = editTextPhone.getText().toString();
-//        pojo.phone_number = String.valueOf(primaryNumber.getNationalNumber());
-
 
         String num = primaryNumber.getNumber();
         String phone_num = num.substring(1);
 
-//        String phone = primaryNumber.getNationalNumber();
-//        primaryNumber.getNumber()
-//
-//        pojo.category= etCategory.getText().toString();
-//        pojo.services = etService.getText().toString();
-//        pojo.keywords= etKeyword.getText().toString();
-//        pojo.address = etAddress.getText().toString();
-//        pojo.latitude = "17.68";
-//        pojo.longitude = "83.21";
-
         boolean cancel = false;
         View focusView = null;
 
-//        // Check for a valid email address.
-//        if (TextUtils.isEmpty( pojo.email)) {
-//            mEmailView.setError(getString(R.string.error_field_required));
-//            focusView = mEmailView;
-//            cancel = true;
-//        } else if (!isEmailValid( pojo.email)) {
-//            mEmailView.setError(getString(R.string.error_invalid_email));
-//            focusView = mEmailView;
-//            cancel = true;
-//        }
-//
-//        if (TextUtils.isEmpty(pojo.name)) {
-//            editTextname.setError(getString(R.string.error_username));
-//            focusView = editTextname;
-//            cancel = true;
-//        }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(phone_num)) {
@@ -126,36 +85,6 @@ public class LoginPage extends BaseActivity {
         }
 
 
-//        // Check for a valid email address.
-//        if (TextUtils.isEmpty(pojo.category)) {
-//            etCategory.setError(getString(R.string.error_field_required));
-//            focusView = etCategory;
-//            cancel = true;
-//        }
-//
-//        // Check for a valid email address.
-//        if (TextUtils.isEmpty(pojo.keywords)) {
-//            etKeyword.setError(getString(R.string.error_field_required));
-//            focusView = etKeyword;
-//            cancel = true;
-//        }
-//
-//        // Check for a valid email address.
-//        if (TextUtils.isEmpty(pojo.services)) {
-//            etService.setError(getString(R.string.error_field_required));
-//            focusView = etService;
-//            cancel = true;
-//        }
-//
-//        // Check for a valid email address.
-//        if (TextUtils.isEmpty(pojo.address)) {
-//            etAddress.setError(getString(R.string.error_field_required));
-//            focusView = etAddress;
-//            cancel = true;
-//        }
-
-
-
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -165,16 +94,17 @@ public class LoginPage extends BaseActivity {
             // perform the user login attempt.
 //            showProgress(true);
 
-
             loginIntoAccount(phone_num);
 
 
-            //            confirmOtp();
+            //            openOTPDialogue();
 //            mAuthTask = new UserLoginTask(email, "password");
 //            mAuthTask.execute((Void) null);
         }
     }
 
+    
+    //verify number
     private void loginIntoAccount(String phone_num) {
         Call<ResponseBody> call = MyApplication.getSerivce().loginIntoBusinessAccountServer(phone_num);
         call.enqueue(new Listener(new RetrofitService() {
@@ -185,21 +115,19 @@ public class LoginPage extends BaseActivity {
                     Toast.makeText(LoginPage.this, "Success", Toast.LENGTH_SHORT).show();
 //                    showProgress(false);
 
-                    confirmOtp();
+                    openOTPDialogue();
 
                 } else {
 //                    showProgress(false);
 
                 }
             }
-        }, "Logging...", false, this));
-
-
-
+        }, "Logging...", true, this));
     }
 
 
-    private void confirmOtp() {
+    /**Open OTP dialog and it verifies otp by calling server*/
+    private void openOTPDialogue() {
 //         throws JSONException
 //    }
         //Creating a LayoutInflater object for the dialog box
@@ -211,7 +139,7 @@ public class LoginPage extends BaseActivity {
 
         //Initizliaing confirm button fo dialog box and edittext of dialog box
         AppCompatButton buttonConfirm = (AppCompatButton) confirmDialog.findViewById(R.id.buttonConfirm);
-//        editTextConfirmOtp = (EditText) confirmDialog.findViewById(R.id.editTextOtp);
+//        editTextopenOTPDialogue = (EditText) confirmDialog.findViewById(R.id.editTextOtp);
 
         //Creating an alertdialog builder
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -234,8 +162,7 @@ public class LoginPage extends BaseActivity {
                 alertDialog.dismiss();
 
                String num = editTextOtp.getText().toString();
-                if (num.length()==4){
-
+                if (num.length()==6){
 
 //                    //Displaying a progressbar
 //                    final ProgressDialog loading = ProgressDialog.show(LoginPage.this, "Authenticating",
@@ -244,10 +171,9 @@ public class LoginPage extends BaseActivity {
 //                    loading.dismiss();
 
 
-                    sendOtp(num);
+                    verifyOTP(num);
 
                     //Starting a new activity
-
 
                 }else {
 
@@ -258,7 +184,7 @@ public class LoginPage extends BaseActivity {
 
 
 //                //Getting the user entered otp from edittext
-//                final String otp = editTextConfirmOtp.getText().toString().trim();
+//                final String otp = editTextopenOTPDialogue.getText().toString().trim();
 //
 //                //Creating an string request
 //                StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.CONFIRM_URL,
@@ -269,7 +195,7 @@ public class LoginPage extends BaseActivity {
 //                                if(response.equalsIgnoreCase("success")){
 //                                    //dismissing the progressbar
 //                                    loading.dismiss();
-//
+
 //                                    //Starting a new activity
 //                                    startActivity(new Intent(MainActivity.this, Success.class));
 //                                }else{
@@ -277,7 +203,7 @@ public class LoginPage extends BaseActivity {
 //                                    Toast.makeText(MainActivity.this,"Wrong OTP Please Try Again",Toast.LENGTH_LONG).show();
 //                                    try {
 //                                        //Asking user to enter otp again
-//                                        confirmOtp();
+//                                        openOTPDialogue();
 //                                    } catch (JSONException e) {
 //                                        e.printStackTrace();
 //                                    }
@@ -299,7 +225,7 @@ public class LoginPage extends BaseActivity {
 
     }
 
-    private void sendOtp(String num) {
+    private void verifyOTP(String num) {
 
         Call<ResponseBody> call = MyApplication.getSerivce().sendOtpToServer(num);
         call.enqueue(new Listener(new RetrofitService() {
@@ -307,18 +233,18 @@ public class LoginPage extends BaseActivity {
             public void onSuccess(String result, int pos, Throwable t) {
 
                 if (pos == 0) {
-                    Toast.makeText(LoginPage.this, "Login Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginPage.this, "OTP verified.", Toast.LENGTH_SHORT).show();
 //                    showProgress(false);
                     startActivity(new Intent(LoginPage.this, Main2Activity.class));
 
-//                    confirmOtp();
+//                    openOTPDialogue();
 
                 } else {
 //                    showProgress(false);
 
                 }
             }
-        }, "Registering...", true, this));
+        }, "verifying otp...", true, this));
 
 
 

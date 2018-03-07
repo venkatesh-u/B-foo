@@ -594,7 +594,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         View confirmDialog = li.inflate(R.layout.dialog_confirm, null);
 
         //Initizliaing confirm button fo dialog box and edittext of dialog box
-        AppCompatButton buttonConfirm = (AppCompatButton) confirmDialog.findViewById(R.id.buttonConfirm);
+        AppCompatButton buttonConfirm =  confirmDialog.findViewById(R.id.buttonConfirm);
 //        editTextConfirmOtp = (EditText) confirmDialog.findViewById(R.id.editTextOtp);
 
         //Creating an alertdialog builder
