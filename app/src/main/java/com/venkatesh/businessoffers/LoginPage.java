@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.squareup.okhttp.ResponseBody;
 import com.venkatesh.businessoffers.intlphoneinput.IntlPhoneInput;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import retrofit.Call;
 
 public class LoginPage extends BaseActivity {
@@ -22,7 +25,8 @@ public class LoginPage extends BaseActivity {
     private IntlPhoneInput primaryNumber;
     Activity activity;
     private boolean isValidPhonneNumber;
-
+    private TextView tv_signup;
+     AlertDialog alertDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +34,7 @@ public class LoginPage extends BaseActivity {
         activity = this;
 
         primaryNumber = findViewById(R.id.my_phone_input);
+        tv_signup = findViewById(R.id.tv_signup);
 
         primaryNumber.setOnValidityChange(new IntlPhoneInput.IntlPhoneInputListener() {
             @Override
@@ -57,6 +62,14 @@ public class LoginPage extends BaseActivity {
         });
 
 
+        tv_signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginPage.this, BusinessRegistration.class));
+            }
+        });
+
+
 
     }
 
@@ -65,7 +78,7 @@ public class LoginPage extends BaseActivity {
     private void attemptLogin() {
 
         String num = primaryNumber.getNumber();
-        String phone_num = num.substring(1);
+        String phone_num = num.substring(3);
 
         boolean cancel = false;
         View focusView = null;
@@ -115,7 +128,19 @@ public class LoginPage extends BaseActivity {
                     Toast.makeText(LoginPage.this, "Success", Toast.LENGTH_SHORT).show();
 //                    showProgress(false);
 
-                    openOTPDialogue();
+
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                       String token = jsonObject.getString("token");
+                        openOTPDialogue(token);
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
 
                 } else {
 //                    showProgress(false);
@@ -126,8 +151,9 @@ public class LoginPage extends BaseActivity {
     }
 
 
-    /**Open OTP dialog and it verifies otp by calling server*/
-    private void openOTPDialogue() {
+    /**Open OTP dialog and it verifies otp by calling server
+     * @param token*/
+    private void openOTPDialogue(final String token) {
 //         throws JSONException
 //    }
         //Creating a LayoutInflater object for the dialog box
@@ -146,10 +172,10 @@ public class LoginPage extends BaseActivity {
 
         //Adding our dialog box to the view of alert dialog
         alert.setView(confirmDialog);
-        alert.setCancelable(false);
+//        alert.setCancelable(false);
 
         //Creating an alert dialog
-        final AlertDialog alertDialog = alert.create();
+         alertDialog = alert.create();
 
         //Displaying the alert dialog
         alertDialog.show();
@@ -159,7 +185,7 @@ public class LoginPage extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //Hiding the alert dialog
-                alertDialog.dismiss();
+//                alertDialog.dismiss();
 
                String num = editTextOtp.getText().toString();
                 if (num.length()==6){
@@ -170,8 +196,7 @@ public class LoginPage extends BaseActivity {
 //                            "Please wait while we check the entered code", false, false);
 //                    loading.dismiss();
 
-
-                    verifyOTP(num);
+                    verifyOTP(num, token);
 
                     //Starting a new activity
 
@@ -225,14 +250,16 @@ public class LoginPage extends BaseActivity {
 
     }
 
-    private void verifyOTP(String num) {
+    private void verifyOTP(String num, String token) {
 
-        Call<ResponseBody> call = MyApplication.getSerivce().sendOtpToServer(num);
+        Call<ResponseBody> call = MyApplication.getSerivce().sendOtpToServer(num, token);
         call.enqueue(new Listener(new RetrofitService() {
             @Override
             public void onSuccess(String result, int pos, Throwable t) {
 
                 if (pos == 0) {
+
+                    alertDialog.dismiss();
                     Toast.makeText(LoginPage.this, "OTP verified.", Toast.LENGTH_SHORT).show();
 //                    showProgress(false);
                     startActivity(new Intent(LoginPage.this, Main2Activity.class));
@@ -250,4 +277,11 @@ public class LoginPage extends BaseActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (alertDialog.isShowing())
+            alertDialog.dismiss();
+
+    }
 }

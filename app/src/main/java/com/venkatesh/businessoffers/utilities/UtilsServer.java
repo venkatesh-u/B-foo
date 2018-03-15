@@ -21,7 +21,7 @@ import java.util.Map;
 public class UtilsServer {
 
 
-public static final String URL ="http://172.16.18.93:9999";
+public static final String URL ="http://172.16.18.93:9999/";
 
 //        "http://172.16.19.52:3000/";
 

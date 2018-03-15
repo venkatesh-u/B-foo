@@ -6,7 +6,8 @@
     tools:context="com.venkatesh.businessoffers.InitialScreenActivity"
     android:orientation="vertical"
     android:padding="@dimen/view_margin_10"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/color_white">
 
     <ImageView
         android:src="@drawable/offers"
@@ -15,23 +16,21 @@
 
     <Button
         android:id="@+id/business_account"
-        style="?android:textAppearanceSmall"
+        android:theme="@style/MyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Business"
-        android:background="@color/colorPrimary"
         android:textStyle="bold"
         android:textColor="@color/color_white"/>
 
     <Button
         android:id="@+id/customer_account"
-        style="?android:textAppearanceSmall"
+        android:theme="@style/MyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Customer"
-        android:background="@color/colorPrimary"
         android:textStyle="bold"
         android:textColor="@color/color_white"/>
 

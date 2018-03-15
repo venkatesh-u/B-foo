@@ -813,5 +813,5 @@ public interface WebService {
     Call<ResponseBody> loginIntoBusinessAccountServer(@Query("phone_number") String phone_num);
 
     @GET("/verify_otp")
-    Call<ResponseBody> sendOtpToServer(@Query("otp") String num);
+    Call<ResponseBody> sendOtpToServer(@Query("otp") String num, @Query("token") String token);
 }

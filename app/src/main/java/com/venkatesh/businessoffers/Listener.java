@@ -63,6 +63,9 @@ public class Listener implements Callback<ResponseBody> {
 //                Utils.showSnackBarLongTime(mActivity, Utils.ERROR_SOMETHING+"..");
                 listner.onSuccess(response.message(), 2, null);
             } else {
+
+                ResponseBody s = response.body();
+
                 String res = response.body().string();
                 JSONObject obj = new JSONObject(res);
 

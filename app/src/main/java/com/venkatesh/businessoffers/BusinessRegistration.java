@@ -21,7 +21,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -50,7 +53,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor> {
+public class BusinessRegistration extends BaseActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -85,14 +88,14 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
     // UI references.
     private AutoCompleteTextView mEmailView;
-    //    private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private EditText editTextPhone, editTextname;
+    private EditText  editTextname;
     private IntlPhoneInput primaryNumber;
     BusinessAccountPojo pojo;
     boolean isValidPhonneNumber;
-    TextView tv_go_to_loginpage;
+//    TextView tv_go_to_loginpage;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +111,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         etService = findViewById(R.id.et_service);
         etKeyword = findViewById(R.id.et_keyword);
         etAddress = findViewById(R.id.et_address);
-        tv_go_to_loginpage = findViewById(R.id.tv_go_to_loginpage );
+//        tv_go_to_loginpage = findViewById(R.id.tv_go_to_loginpage );
 
         primaryNumber.setOnValidityChange(new IntlPhoneInput.IntlPhoneInputListener() {
             @Override
@@ -138,12 +141,12 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        tv_go_to_loginpage.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, LoginPage.class));
-            }
-        });
+//        tv_go_to_loginpage.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(BusinessRegistration.this, LoginPage.class));
+//            }
+//        });
     }
 
     /**Validate phone number at server side*/
@@ -238,7 +241,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
 
        String num = primaryNumber.getNumber();
-        pojo.phone_number = num.substring(1);
+        pojo.phone_number = num.substring(3);
 
 //        String phone = primaryNumber.getNationalNumber();
 //        primaryNumber.getNumber()
@@ -341,8 +344,9 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             public void onSuccess(String result, int pos, Throwable t) {
 
                 if (pos == 0) {
-                    Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BusinessRegistration.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                     showProgress(false);
+                    finish();
 
                 } else {
                     showProgress(false);
@@ -435,7 +439,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(BusinessRegistration.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
@@ -499,7 +503,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
                 confirmOtp();
 //                finish();
-//                startActivity(new Intent(LoginActivity.this, Main2Activity.class));
+//                startActivity(new Intent(BusinessRegistration.this, Main2Activity.class));
 
             } else {
 //                mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -555,7 +559,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 //                                confirmOtp();
 //                            }else{
 //                                //If not successful user may already have registered
-//                                Toast.makeText(LoginActivity.this, "Username or Phone number already registered", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(BusinessRegistration.this, "Username or Phone number already registered", Toast.LENGTH_LONG).show();
 //                            }
 //                        } catch (JSONException e) {
 //                            e.printStackTrace();
@@ -566,7 +570,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 //                    @Override
 //                    public void onErrorResponse(VolleyError error) {
 //                        loading.dismiss();
-//                        Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(BusinessRegistration.this, error.getMessage(), Toast.LENGTH_LONG).show();
 //                    }
 //                }) {
 //            @Override
@@ -618,13 +622,13 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                 alertDialog.dismiss();
 
                 //Displaying a progressbar
-                final ProgressDialog loading = ProgressDialog.show(LoginActivity.this, "Authenticating",
+                final ProgressDialog loading = ProgressDialog.show(BusinessRegistration.this, "Authenticating",
                         "Please wait while we check the entered code", false, false);
 
                 loading.dismiss();
 
                 //Starting a new activity
-                startActivity(new Intent(LoginActivity.this, Main2Activity.class));
+                startActivity(new Intent(BusinessRegistration.this, Main2Activity.class));
 
 
 //                //Getting the user entered otp from edittext
@@ -661,11 +665,44 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 //                                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
 //                            }
 
-//
 
             }
 
         });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_location, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_get_location) {
+            startActivityForResult(new Intent(this, MapsActivityCurrentPlace.class), 12);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode== RESULT_OK)
+            if (requestCode==12){
+
+                String lat =  data.getStringExtra("latitude");
+               String lng  = data.getStringExtra("longitude");
+
+                Log.d("LatLong: ",lat+", "+lng );
+            }
+
+        super.onActivityResult(requestCode, resultCode, data);
+
 
     }
 }

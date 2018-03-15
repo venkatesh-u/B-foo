@@ -3,6 +3,7 @@ package com.venkatesh.businessoffers;
 import android.*;
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -57,9 +58,9 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
 
 //    private static final String TAG = "Ma";
 //            MapsActivityCurrentPlace.class.getSimpleName();
-    @BindView(R.id.et_location)
+//    @BindView(R.id.et_location)
     EditText etLocation;
-    @BindView(R.id.btn_confirm_location)
+//    @BindView(R.id.btn_confirm_location)
     Button btnConfirmLocation;
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
@@ -92,7 +93,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
     private String[] mLikelyPlaceAddresses;
     private String[] mLikelyPlaceAttributions;
     private LatLng[] mLikelyPlaceLatLngs;
-
+    LatLng latLng_global;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,16 +130,33 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
 //            }
 //        });
 
+        btnConfirmLocation = findViewById(R.id.btn_confirm_location);
+        etLocation = findViewById(R.id.et_location);
 
         btnConfirmLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               String loc = etLocation.getText().toString();
+//               String loc = etLocation.getText().toString();
+//
+//                if (!loc.equals("")){
+//                            addressSearch(loc);
+//
+//                }
 
-                if (!loc.equals("")){
-                            addressSearch(loc);
+
+
+
+                if (latLng_global!=null){
+                    Intent intent = new Intent();
+                    intent.putExtra("Latitude", latLng_global.latitude);
+                    intent.putExtra("Longitude", latLng_global.longitude);
+                    setResult(RESULT_OK, intent);
+                    finish();
 
                 }
+
+
+
             }
         });
     }
@@ -440,6 +458,9 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
                 // The "which" argument contains the position of the selected item.
                 LatLng markerLatLng = mLikelyPlaceLatLngs[which];
+
+                 latLng_global = mLikelyPlaceLatLngs[which];
+
                 String markerSnippet = mLikelyPlaceAddresses[which];
                 if (mLikelyPlaceAttributions[which] != null) {
                     markerSnippet = markerSnippet + "\n" + mLikelyPlaceAttributions[which];
