@@ -19,11 +19,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp">
-        <EditText android:id="@+id/et_location"
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="Search for area, street name..."/>
+            android:ems="10"
+            android:hint="Search for street, area.." >
+            <requestFocus />
+        </AutoCompleteTextView>
+
     </android.support.design.widget.TextInputLayout>
 
     <Button
