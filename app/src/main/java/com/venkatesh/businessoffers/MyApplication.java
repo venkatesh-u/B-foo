@@ -14,6 +14,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
+import com.venkatesh.businessoffers.storage.PreferencesData;
 import com.venkatesh.businessoffers.utilities.UtilsServer;
 
 import java.io.IOException;

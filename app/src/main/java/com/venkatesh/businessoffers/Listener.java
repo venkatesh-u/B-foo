@@ -63,6 +63,9 @@ public class Listener implements Callback<ResponseBody> {
 //                Utils.showSnackBarLongTime(mActivity, Utils.ERROR_SOMETHING+"..");
                 listner.onSuccess(response.message(), 2, null);
             } else {
+
+                ResponseBody s = response.body();
+
                 String res = response.body().string();
                 JSONObject obj = new JSONObject(res);
 
@@ -83,7 +86,7 @@ public class Listener implements Callback<ResponseBody> {
             try {
 //                obj.getJSONArray("message").getString(0)
 //                Utils.showSnackBarLongTime(mActivity, obj.getJSONArray("message").getString(0));
-                Toast.makeText(mActivity, obj.getJSONArray("message").getString(0), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, obj.getString("message"), Toast.LENGTH_SHORT).show();
 
             } catch (JSONException e) {
                 e.printStackTrace();

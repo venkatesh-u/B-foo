@@ -4,11 +4,8 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.venkatesh.businessoffers.LoginActivity">
+    android:padding="@dimen/view_margin_10"
+    tools:context="com.venkatesh.businessoffers.BusinessRegistration">
 
     <!-- Login progress -->
     <ProgressBar
@@ -28,7 +25,8 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/view_margin_10">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -71,15 +69,15 @@
                     <!--android:inputType="number"-->
                     <!--android:hint="Mobile"-->
                     <!--android:maxLength="10"-->
-                    <!--/>-->
             <!--</android.support.design.widget.TextInputLayout>-->
 
 
             <com.venkatesh.businessoffers.intlphoneinput.IntlPhoneInput
-            android:id="@+id/my_phone_input"
-            style="@style/margins"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                android:id="@+id/my_phone_input"
+                style="@style/margins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_margin_10"/>
 
 
 
@@ -91,7 +89,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/category"
-                    android:imeActionLabel="@string/action_sign_in_short"
                     android:inputType="text"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
@@ -144,14 +141,24 @@
 
             <Button
                 android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
-                android:background="@color/colorPrimary"
                 android:textStyle="bold"
-                android:textColor="@color/color_white"/>
+                android:textColor="@color/color_white"
+                android:theme="@style/MyButton"
+                />
+            <!--style="?android:textAppearanceSmall"-->
+
+            <!--<TextView-->
+                <!---->
+                <!--android:id="@+id/tv_go_to_loginpage"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="LOGIN"-->
+                <!--android:clickable="true"-->
+                <!--android:focusable="true"/>-->
 
         </LinearLayout>
     </ScrollView>

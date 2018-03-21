@@ -4,6 +4,7 @@ import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -75,6 +76,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
 //            MapsActivityCurrentPlace.class.getSimpleName();
 //    @BindView(R.id.et_location)
 //    EditText etLocation;
+
     @BindView(R.id.btn_confirm_location)
     Button btnConfirmLocation;
     private GoogleMap mMap;
@@ -110,16 +112,14 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
     private LatLng[] mLikelyPlaceLatLngs;
 
 
-
-
     private static final String LOG_TAG = "CurrentPLaceActivity";
-
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
     private static final String OUT_JSON = "/json";
 
     //------------ make your specific key ------------
     private static final String API_KEY = "AIzaSyAU9ShujnIg3IDQxtPr7Q1qOvFVdwNmWc4";
+    LatLng latLng_global;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,16 +161,33 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
 //            }
 //        });
 
+        btnConfirmLocation = findViewById(R.id.btn_confirm_location);
+//        etLocation = findViewById(R.id.et_location);
 
        /* btnConfirmLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               String loc = etLocation.getText().toString();
+//               String loc = etLocation.getText().toString();
+//
+//                if (!loc.equals("")){
+//                            addressSearch(loc);
+//
+//                }
 
-                if (!loc.equals("")){
-                            addressSearch(loc);
+
+
+
+                if (latLng_global!=null){
+                    Intent intent = new Intent();
+                    intent.putExtra("Latitude", latLng_global.latitude);
+                    intent.putExtra("Longitude", latLng_global.longitude);
+                    setResult(RESULT_OK, intent);
+                    finish();
 
                 }
+
+
+
             }
         });*/
     }
@@ -472,6 +489,9 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
                 // The "which" argument contains the position of the selected item.
                 LatLng markerLatLng = mLikelyPlaceLatLngs[which];
+
+                 latLng_global = mLikelyPlaceLatLngs[which];
+
                 String markerSnippet = mLikelyPlaceAddresses[which];
                 if (mLikelyPlaceAttributions[which] != null) {
                     markerSnippet = markerSnippet + "\n" + mLikelyPlaceAttributions[which];
