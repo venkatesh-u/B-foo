@@ -16,7 +16,7 @@ import android.view.MenuItem;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+Integer Request_code_mainactivty=1213;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +30,9 @@ public class Main2Activity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                Intent intent = new Intent(Main2Activity.this, AddOfferActivity.class);
+                startActivityForResult(intent, Request_code_mainactivty);
             }
         });
 
