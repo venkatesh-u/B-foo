@@ -20,14 +20,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/geocoding_key" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
 
         <activity android:name=".MapsActivityCurrentPlace" />
         <activity
@@ -47,7 +45,8 @@
         </activity>
         <!-- <activity android:name=".PhonevalidationActivity"></activity> -->
         <activity android:name=".LoginPage" />
-        <activity android:name=".BusinessRegistration"></activity>
+        <activity android:name=".BusinessRegistration" />
+        <activity android:name=".AddOfferActivity"></activity>
     </application>
 
 </manifest>

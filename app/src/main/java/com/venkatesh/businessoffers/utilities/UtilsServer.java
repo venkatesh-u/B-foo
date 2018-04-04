@@ -5,9 +5,6 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,8 +17,9 @@ import java.util.Map;
 
 public class UtilsServer {
 
-
-public static final String URL ="http://172.16.18.93:9999/";
+public static final String URL =
+//        "https://mycoupans.herokuapp.com/";
+        "http://192.168.0.106:3000/";
 
 //        "http://172.16.19.52:3000/";
 

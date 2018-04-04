@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="@dimen/view_margin_10"
@@ -19,146 +20,99 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbarSize="@dimen/view_margin">
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/view_margin_10">
+            android:layout_marginBottom="@dimen/view_margin_10"
+            android:layout_marginTop="@dimen/view_margin_10"
+            android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
+            <com.venkatesh.businessoffers.customViews.MaterialEditText
+                android:id="@+id/et_username"
+                style="@style/margins"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:hint="@string/user_name"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:inputType="text"
+                android:singleLine="true"
+                app:floatingLabel="highlight" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
+            <com.venkatesh.businessoffers.customViews.MaterialEditText
+                android:id="@+id/email"
+                style="@style/margins"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/et_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/user_name"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:inputType="text"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:layout_marginBottom="8dp">-->
-                <!--<EditText android:id="@+id/editTextPhone"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:inputType="number"-->
-                    <!--android:hint="Mobile"-->
-                    <!--android:maxLength="10"-->
-            <!--</android.support.design.widget.TextInputLayout>-->
-
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true"
+                app:floatingLabel="highlight" />
 
             <com.venkatesh.businessoffers.intlphoneinput.IntlPhoneInput
                 android:id="@+id/my_phone_input"
                 style="@style/margins"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/view_margin_10"/>
+                android:layout_marginTop="@dimen/view_margin_10" />
 
-
-
-            <android.support.design.widget.TextInputLayout
+            <com.venkatesh.businessoffers.customViews.MaterialEditText
+                android:id="@+id/et_keyword"
+                style="@style/margins"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/et_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/category"
-                    android:inputType="text"
-                    android:singleLine="true" />
-            </android.support.design.widget.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:hint="@string/keywords"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:inputType="text"
+                android:singleLine="true"
+                app:floatingLabel="highlight" />
 
-            <android.support.design.widget.TextInputLayout
+            <com.venkatesh.businessoffers.customViews.MaterialEditText
+                android:id="@+id/et_category"
+                style="@style/margins"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:hint="@string/category"
+                app:floatingLabel="highlight" />
 
-                <EditText
-                    android:id="@+id/et_keyword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/keywords"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:inputType="text"
-                    android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
+            <com.venkatesh.businessoffers.customViews.MaterialEditText
+                android:id="@+id/et_service"
+                style="@style/margins"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:hint="@string/service"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:inputType="text"
+                android:singleLine="true"
+                app:floatingLabel="highlight" />
 
-                <EditText
-                    android:id="@+id/et_service"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/service"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:inputType="text"
-                    android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
+            <com.venkatesh.businessoffers.customViews.MaterialEditText
+                android:id="@+id/et_address"
+                style="@style/margins"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/et_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/address"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:inputType="text"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
+                android:layout_height="wrap_content"
+                android:hint="@string/address"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:inputType="text"
+                android:singleLine="true"
+                app:floatingLabel="highlight" />
 
             <Button
                 android:id="@+id/email_sign_in_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/view_margin"
                 android:text="@string/action_sign_in"
-                android:textStyle="bold"
                 android:textColor="@color/color_white"
-                android:theme="@style/MyButton"
-                />
-            <!--style="?android:textAppearanceSmall"-->
-
-            <!--<TextView-->
-                <!---->
-                <!--android:id="@+id/tv_go_to_loginpage"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="LOGIN"-->
-                <!--android:clickable="true"-->
-                <!--android:focusable="true"/>-->
+                android:textStyle="bold"
+                android:theme="@style/MyButton" />
 
         </LinearLayout>
     </ScrollView>

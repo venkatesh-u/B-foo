@@ -39,6 +39,7 @@ import android.widget.Toast;
 import com.squareup.okhttp.ResponseBody;
 import com.venkatesh.businessoffers.intlphoneinput.IntlPhoneInput;
 import com.venkatesh.businessoffers.pojos.BusinessAccountPojo;
+import com.venkatesh.businessoffers.utilities.UtilsServer;
 
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
+    private static final String TAG = "BusinessReg_Page";
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -87,10 +88,10 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+//    private AutoCompleteTextView mEmailView;
     private View mProgressView;
     private View mLoginFormView;
-    private EditText  editTextname;
+    private EditText  editTextname, mEmailView;
     private IntlPhoneInput primaryNumber;
     BusinessAccountPojo pojo;
     boolean isValidPhonneNumber;
@@ -224,10 +225,10 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
+       /* if (mAuthTask != null) {
             return;
         }
-
+*/
         // Reset errors.
         mEmailView.setError(null);
         editTextname.setError(null);
@@ -241,7 +242,6 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
 
 
        String num = primaryNumber.getNumber();
-        pojo.phone_number = num.substring(3);
 
 //        String phone = primaryNumber.getNationalNumber();
 //        primaryNumber.getNumber()
@@ -261,11 +261,13 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid( pojo.email)) {
+        } else if (!pojo.email.matches(UtilsServer.EMAIL_PATTERN)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
         }
+
+
 
         if (TextUtils.isEmpty(pojo.name)) {
             editTextname.setError(getString(R.string.error_username));
@@ -274,7 +276,7 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(pojo.phone_number)) {
+        if (TextUtils.isEmpty(num)) {
             primaryNumber.setError(getString(R.string.error_field_required));
             focusView = primaryNumber;
             cancel = true;
@@ -326,6 +328,7 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
             // perform the user login attempt.
             showProgress(true);
 
+            pojo.phone_number = num.substring(3);
 
            createBusinessAccount(pojo);
 
@@ -356,10 +359,10 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
         }, "Registering...", true, this));
     }
 
-    private boolean isEmailValid(String email) {
+/*    private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
-    }
+    }*/
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
@@ -428,7 +431,7 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
             cursor.moveToNext();
         }
 
-        addEmailsToAutoComplete(emails);
+//        addEmailsToAutoComplete(emails);
     }
 
     @Override
@@ -436,14 +439,14 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
 
     }
 
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+  /*  private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(BusinessRegistration.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
-    }
+    }*/
 
 
     private interface ProfileQuery {
@@ -695,10 +698,15 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
         if (resultCode== RESULT_OK)
             if (requestCode==12){
 
-                String lat =  data.getStringExtra("latitude");
-               String lng  = data.getStringExtra("longitude");
+                String loc_ =  data.getStringExtra("location");
+                if (loc_!=null)
+                    etAddress.setText(loc_);
+                else
+                    Log.d(TAG, "loc is null");
+//                String lat =  data.getStringExtra("latitude");
+//               String lng  = data.getStringExtra("longitude");
 
-                Log.d("LatLong: ",lat+", "+lng );
+//                Log.d("LatLong: ",lat+", "+lng );
             }
 
         super.onActivityResult(requestCode, resultCode, data);

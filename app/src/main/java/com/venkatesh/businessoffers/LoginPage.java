@@ -78,14 +78,14 @@ public class LoginPage extends BaseActivity {
     private void attemptLogin() {
 
         String num = primaryNumber.getNumber();
-        String phone_num = num.substring(3);
+
 
         boolean cancel = false;
         View focusView = null;
 
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(phone_num)) {
+        if (TextUtils.isEmpty(num)) {
             primaryNumber.setError(getString(R.string.error_field_required));
             focusView = primaryNumber;
             cancel = true;
@@ -106,7 +106,7 @@ public class LoginPage extends BaseActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
 //            showProgress(true);
-
+            String phone_num = num.substring(3);
             loginIntoAccount(phone_num);
 
 

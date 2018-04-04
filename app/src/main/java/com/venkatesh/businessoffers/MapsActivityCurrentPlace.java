@@ -99,7 +99,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location mLastKnownLocation;
-
+    AutoCompleteTextView autoCompView;
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
@@ -135,7 +135,7 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
         setContentView(R.layout.activity_maps);
 
 
-        AutoCompleteTextView autoCompView = findViewById(R.id.autoCompleteTextView);
+        autoCompView = findViewById(R.id.autoCompleteTextView);
         autoCompView.setAdapter(new GooglePlacesAutocompleteAdapter(this, R.layout.list_item));
         autoCompView.setOnItemClickListener(this);
 
@@ -164,10 +164,16 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
         btnConfirmLocation = findViewById(R.id.btn_confirm_location);
 //        etLocation = findViewById(R.id.et_location);
 
-       /* btnConfirmLocation.setOnClickListener(new View.OnClickListener() {
+        btnConfirmLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//               String loc = etLocation.getText().toString();
+               String loc = autoCompView.getText().toString();
+
+               Intent intent = new Intent();
+               intent.putExtra("location", loc);
+               setResult(RESULT_OK, intent);
+               finish();
+
 //
 //                if (!loc.equals("")){
 //                            addressSearch(loc);
@@ -177,19 +183,19 @@ public class MapsActivityCurrentPlace extends AppCompatActivity
 
 
 
-                if (latLng_global!=null){
+            /*    if (latLng_global!=null){
                     Intent intent = new Intent();
                     intent.putExtra("Latitude", latLng_global.latitude);
                     intent.putExtra("Longitude", latLng_global.longitude);
                     setResult(RESULT_OK, intent);
                     finish();
 
-                }
+                }*/
 
 
 
             }
-        });*/
+        });
     }
 
 
