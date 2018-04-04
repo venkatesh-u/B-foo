@@ -16,7 +16,8 @@ import android.view.MenuItem;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-Integer Request_code_mainactivty=1213;
+
+    Integer Request_code_mainactivty = 1213;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

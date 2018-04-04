@@ -9,11 +9,11 @@
 
 
     <com.venkatesh.businessoffers.customViews.MaterialEditText
-        android:id="@+id/et_offer_type"
+        android:id="@+id/et_offer_title"
         style="@style/margins"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/user_name"
+        android:hint="Title"
         android:imeActionLabel="@string/action_sign_in_short"
         android:inputType="text"
         android:singleLine="true"
@@ -24,11 +24,21 @@
         style="@style/margins"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/user_name"
+        android:hint="Description"
         android:imeActionLabel="@string/action_sign_in_short"
         android:inputType="text"
         android:singleLine="true"
         app:floatingLabel="highlight" />
+
+    <Button
+        android:id="@+id/btn_add_offer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Add"
+        android:textStyle="bold"
+        android:textColor="@color/color_white"
+        android:theme="@style/MyButton"/>
 
     <!--<com.venkatesh.businessoffers.customViews.MaterialEditText-->
         <!--android:id="@+id/et_username"-->

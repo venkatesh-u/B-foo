@@ -33,7 +33,7 @@
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".InitialScreenActivity"
+            android:name=".AddOfferActivity"
             android:label="@string/title_activity_login">
 
             <!-- android:theme="@style/AppTheme.NoActionBar" -->
@@ -46,7 +46,8 @@
         <!-- <activity android:name=".PhonevalidationActivity"></activity> -->
         <activity android:name=".LoginPage" />
         <activity android:name=".BusinessRegistration" />
-        <activity android:name=".AddOfferActivity"></activity>
+        <activity android:name=".InitialScreenActivity"
+                  android:label="Add Offer"/>
     </application>
 
 </manifest>

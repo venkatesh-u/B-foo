@@ -2,6 +2,7 @@ package com.venkatesh.businessoffers;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.squareup.okhttp.ResponseBody;
 import com.venkatesh.businessoffers.intlphoneinput.IntlPhoneInput;
+import com.venkatesh.businessoffers.storage.PreferencesData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -132,7 +134,7 @@ public class LoginPage extends BaseActivity {
 
                     try {
                         JSONObject jsonObject = new JSONObject(result);
-                       String token = jsonObject.getString("token");
+                        String token = jsonObject.getString("token");
                         openOTPDialogue(token);
 
 
@@ -156,6 +158,11 @@ public class LoginPage extends BaseActivity {
     private void openOTPDialogue(final String token) {
 //         throws JSONException
 //    }
+
+        PreferencesData.putToken(this, token);
+
+        //store token in preferences
+
         //Creating a LayoutInflater object for the dialog box
         LayoutInflater li = LayoutInflater.from(this);
         //Creating a view to get the dialog box
@@ -280,7 +287,7 @@ public class LoginPage extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (alertDialog.isShowing())
+        if (alertDialog!=null && alertDialog.isShowing())
             alertDialog.dismiss();
 
     }

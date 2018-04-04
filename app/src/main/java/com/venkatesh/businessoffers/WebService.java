@@ -3,6 +3,7 @@ package com.venkatesh.businessoffers;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
 import com.venkatesh.businessoffers.pojos.BusinessAccountPojo;
+import com.venkatesh.businessoffers.pojos.CouponsPojo;
 import com.venkatesh.businessoffers.utilities.UtilsServer;
 
 import java.util.Map;
@@ -814,4 +815,7 @@ public interface WebService {
 
     @GET("/verify_otp")
     Call<ResponseBody> sendOtpToServer(@Query("otp") String num, @Query("token") String token);
+
+    @POST("/create_coupan")
+    Call<ResponseBody> createCoupon(@Body CouponsPojo pojo);
 }
