@@ -10,4 +10,13 @@ public class CouponsPojo {
 
     public String title, description,  token, business_account_id;
     public File avatar;
+    public Coupon coupan;
+
+
+    class Coupon{
+
+        public String title, description, business_account_id;
+        public File avatar;
+    }
+
 }
