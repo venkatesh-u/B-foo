@@ -818,4 +818,7 @@ public interface WebService {
 
     @POST("/create_coupan")
     Call<ResponseBody> createCoupon(@Body CouponsPojo pojo);
+
+    @GET("/show_coupan_details")
+    Call<ResponseBody> getOffers_(@Query("business_account_id") String business_id);
 }
