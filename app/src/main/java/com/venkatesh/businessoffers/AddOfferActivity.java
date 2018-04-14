@@ -1,6 +1,5 @@
 package com.venkatesh.businessoffers;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,7 +11,6 @@ import com.venkatesh.businessoffers.pojos.CouponsPojo;
 import com.venkatesh.businessoffers.storage.PreferencesData;
 
 import java.io.File;
-
 import retrofit.Call;
 
 public class AddOfferActivity extends BaseActivity implements View.OnClickListener {

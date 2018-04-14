@@ -1,279 +1,162 @@
 package com.venkatesh.businessoffers.fragments;
 
-import android.app.NotificationManager;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.ResponseBody;
-import com.venkatesh.businessoffers.BaseActivity;
-import com.venkatesh.businessoffers.Listener;
-import com.venkatesh.businessoffers.MyApplication;
-import com.venkatesh.businessoffers.PreferencesData;
 import com.venkatesh.businessoffers.R;
-import com.venkatesh.businessoffers.RetrofitService;
-import com.venkatesh.businessoffers.superList.OnMoreListener;
-import com.venkatesh.businessoffers.superList.SuperRecyclerView;
+import com.venkatesh.businessoffers.adapters.OffersAdapter;
+import com.venkatesh.businessoffers.pojos.OffersPojo;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit.Call;
-
-public class AllOffersFragment extends Fragment  {
-
-    public boolean isListEmpty = false;
-    SuperRecyclerView mList;
-//    OffersAdapter adap;
-    View main;
-//    private List<NotificationsPojo> notifications;
-    private int PAGE = 1;
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-
-        super.onActivityCreated(savedInstanceState);
-        setListLayout();
-
-//        notifications = new ArrayList<>();
-        getNotofications();
-        setHasOptionsMenu(true);
-
-        getOffers();
-
-//        NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-//        mNotificationManager.cancelAll();
-        //PreferencesData.putNumNotifications(getActivity(), "0");
-
-       /* Activity act = getActivity();
-        if (act instanceof InterViewer) {
-            ((InterViewer) act).setNotificationText();
-        } else if (act instanceof Recruiter) {
-            ((Recruiter) act).setNotificationText();
-        }
-        if (act instanceof Candidate) {
-            ((Candidate) act).setNotificationText();
-        }*/
-        //((RadioButton)getActivity().findViewById(R.id.notifications)).setText(builder);
-
-    }
-
-    private void getOffers(){
-
-        String business_id = "1";
-        Call<ResponseBody> call = MyApplication.getSerivce().getOffers_(business_id);
-        call.enqueue(new Listener(new RetrofitService() {
-            @Override
-            public void onSuccess(String result, int pos, Throwable t) {
-
-                if (pos==0){
 
 
-                }
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link AllOffersFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link AllOffersFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class AllOffersFragment extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
 
-            }
-        }, "loading..", true,getActivity() ));
+    private OnFragmentInteractionListener mListener;
 
-
+    private ArrayList<OffersPojo> list_offers;
+    private OffersAdapter adapter;
+    private View main_view;
+    private RecyclerView my_recycler_view;
+    LinearLayoutManager layoutManager;
+    public AllOffersFragment() {
+        // Required empty public constructor
     }
 
     /**
-     * Initializing UI list with grid layout manager
-     */
-    public void setListLayout() {
-
-        mList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mList.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        mList.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-             /*   if(adap!=null)
-                    adap.clearAll();
-                adap.notifyDataSetChanged();
-                PAGE = 1;
-                getNotofications();*/
-
-            }
-        });
-//        mList.setupMoreListener(new OnMoreListener() {
-//            @Override
-//            public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-//                if (!isListEmpty)
-//                    getNotofications();
-//                else
-//                    mList.hideMoreProgress();
-//            }
-//        }, 2);
-//        adap = new OffersAdapter(getActivity(), this);
-//        mList.setAdapter(adap);
-//    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, 8.
-        3333Bundle savedInstanceState) {
-        main = inflater.inflate(R.layout.frag_offer_items, null);
-        //	view=(ListView) main.findViewById(R.id.list);
-        mList = (SuperRecyclerView) main.findViewById(R.id.list);
-        //LayoutParams lp=new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        //view.setVerticalScrollBarEnabled(false);
-        //view.setCacheColorHint(Color.TRANSPARENT);
-        //view.setLayoutParams(lp);
-        //	view.setBackgroundColor(getResources().getColor(R.color.darker_gray));
-        return main;
-    }
-
-
-
-
-    /**
-     * Empty text changes will done here
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
      *
-     * @param id operation to perform
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment AllOffersFragment.
      */
-   /* public void changeEmptyText(int id) {
-        switch (id) {
-            case 0:
-                mList.changeEmptyView(R.drawable.ic_launcher,getString(R.string.notifications));
-                break;
-            case 1:
-                mList.changeEmptyView(R.drawable.ic_launcher, R.string.nothing_found_notifications);
-
-                break;
-            case 2:
-                mList.changeEmptyView(R.drawable.ic_launcher, R.string.something_wentwrong);
-                break;
-            case 3:
-                mList.changeEmptyView(R.drawable.ic_launcher, R.string.no_matching_found);
-                break;
-            case 4:
-                mList.changeEmptyView(R.drawable.ic_launcher,R.string.no_network_connection_found);
-                break;
-        }
-        setEmptyViewClick(id);
-
+    // TODO: Rename and change types and number of parameters
+    public static AllOffersFragment newInstance(String param1, String param2) {
+        AllOffersFragment fragment = new AllOffersFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
     }
-*/
-    public void setEmptyViewClick(int id) {
-        mList.getEmptyView().setOnClickListener(null);
-        if (id == 2 || id==4) {
-            mList.getEmptyView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PAGE = 1;
-                    getNotofications();
-                }
-            });
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
-  /*  public void setmAdapter() {
-        //List<JobPojo> jobs=adapter.getItems();
-        adap = new OffersAdapter(getActivity(), this);
-        //adap.setItems(engagedlist);
-        mList.setAdapter(adap);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        main_view = inflater.inflate(R.layout.fragment_all_offers, container, false);
+        return main_view;
     }
-*/
-   /* public void notiFyDataSetChanged() {
-        if (PAGE == 1)
-            setmAdapter();
-        else
-            adap.notifyDataSetChanged();
 
-    }*/
-
-    protected void parseJsonFeed(String res) {
-
-        try {
-            JSONObject response = new JSONObject(res);
-
-
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<NotificationsPojo>>() {
-            }.getType();
-
-            notifications = gson.fromJson(response.getJSONArray("notifications").toString(), type);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
         }
+    }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
     }
 
 
     @Override
-    public void onDestroyView() {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        super.onDestroyView();
+        my_recycler_view  = main_view.findViewById(R.id.my_recycler_view);
+
+       ArrayList<OffersPojo> list = makeAList();
+        adapter = new OffersAdapter(list);
+
+        layoutManager = new LinearLayoutManager(getActivity());
+        my_recycler_view.setLayoutManager(layoutManager);
+        my_recycler_view.setItemAnimator(new DefaultItemAnimator());
+        my_recycler_view.addItemDecoration(new DividerItemDecoration(getActivity(), layoutManager.getOrientation()));
+
+        my_recycler_view.setAdapter(adapter);
+
+
+    }
+
+    private ArrayList<OffersPojo> makeAList() {
+
+
+        list_offers = new ArrayList<>();
+        for (int i=0; i<12; i++){
+
+            OffersPojo pojo = new OffersPojo();
+            pojo.title = "Ramboo";
+            pojo.description = "fsdkhgsjghjskghkjshgkjshgkjhsjkghjksghjshgjhjkshgjhjkgh";
+            list_offers.add(pojo);
+        }
+
+        return list_offers;
+
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        super.onCreateOptionsMenu(menu, inflater);
-        MenuItem item = menu.findItem(R.id.edit);
-        if (item != null)
-            item.setVisible(false);
-        menu.removeItem(R.id.filter);
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
-    public void getNotofications() {
-        if(getActivity() instanceof BaseActivity) {
-            if (((BaseActivity) getActivity()).checkConnection()) {
-                if (PAGE == 1)
-                    changeEmptyText(0);
-                Call<ResponseBody> cl = MyApplication.getSerivce().getNotifications(PreferencesData.getRole(getActivity()), PAGE, 15);
-                cl.enqueue(new Listener(new RetrofitService() {
-                    @Override
-                    public void onSuccess(String result, int pos, Throwable t) {
-                        if (pos == 0) {
-                            parseJsonFeed(result);
-
-                            if (notifications.size() > 0) {
-                                if (PAGE == 1)
-                                    adap.clearAll();
-                                PAGE++;
-                                adap.addItems(notifications);
-                                isListEmpty = notifications.size() < 15;
-                                notiFyDataSetChanged();
-                            } else if (PAGE == 1) {
-                                adap.clearAll();
-                                adap.notifyDataSetChanged();
-                                changeEmptyText(1);
-                            } else {
-                                isListEmpty = true;
-                                mList.hideMoreProgress();
-                                //changeEmptyText(1);
-                            }
-                        }
-                    }
-                }, null, false, getActivity()));
-            }
-            else{
-                changeEmptyText(4);
-            }
-        }
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
-
- /*   @Override
-    public void conformed() {
-        adap.clearAll();
-        adap.notifyDataSetChanged();
-        getNotofications();
-    }*/
 }

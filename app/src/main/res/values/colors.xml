@@ -13,5 +13,5 @@
     <color name="bluee">#60CEFD</color>
     <color name="black_overlay">#66000000</color>
     <color name="textcolor_light_grey">#757575</color>
-
+    <color name="background">#dddddd</color>
 </resources>
