@@ -58,7 +58,6 @@ public class PreferencesData {
 
 	public static synchronized void initPrefs(Context context) {
 		if (preferences == null) {
-
 			preferences = context.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
 		}
 	}

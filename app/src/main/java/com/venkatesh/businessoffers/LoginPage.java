@@ -1,7 +1,9 @@
 package com.venkatesh.businessoffers;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
@@ -28,11 +30,21 @@ public class LoginPage extends BaseActivity {
     private boolean isValidPhonneNumber;
     private TextView tv_signup;
      AlertDialog alertDialog;
+     SharedPreferences sharedPreferences;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
         activity = this;
+
+        PreferencesData.initPrefs(activity);
+        sharedPreferences = PreferencesData.getSharedPreferences();
+        boolean isBusLogIn = sharedPreferences.p;
+
+        if(isBusLogIn){
+            startBusinessMainActivity();
+            return;
+        }
 
         primaryNumber = findViewById(R.id.my_phone_input);
         tv_signup = findViewById(R.id.tv_signup);
@@ -74,6 +86,11 @@ public class LoginPage extends BaseActivity {
 
     }
 
+
+    private void startBusinessMainActivity() {
+        Intent intent = new Intent(activity, BusinessMainActivity.class);
+        startActivity(intent);
+    }
 
 
     private void attemptLogin() {
@@ -268,6 +285,7 @@ public class LoginPage extends BaseActivity {
                     alertDialog.dismiss();
                     Toast.makeText(LoginPage.this, "OTP verified.", Toast.LENGTH_SHORT).show();
 //                    showProgress(false);
+                    PreferencesData.putBool(true,PreferencesData.PREF_LOGIN);
                     startActivity(new Intent(LoginPage.this, BusinessMainActivity.class));
 
 //                    openOTPDialogue();
