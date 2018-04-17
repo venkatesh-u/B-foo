@@ -15,11 +15,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.squareup.okhttp.ResponseBody;
+import com.venkatesh.businessoffers.Listener;
+import com.venkatesh.businessoffers.MyApplication;
 import com.venkatesh.businessoffers.R;
+import com.venkatesh.businessoffers.RetrofitService;
 import com.venkatesh.businessoffers.Utils;
 import com.venkatesh.businessoffers.adapters.OffersAdapter;
+import com.venkatesh.businessoffers.pojos.Coupans;
 import com.venkatesh.businessoffers.pojos.OffersPojo;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit.Call;
 
 
 /**
@@ -104,6 +120,7 @@ public class AllOffersFragment extends Fragment {
     private View main_view;
     private RecyclerView my_recycler_view;
     LinearLayoutManager layoutManager;
+    ArrayList<Coupans> list;
     public AllOffersFragment() {
         // Required empty public constructor
     }
@@ -168,8 +185,9 @@ public class AllOffersFragment extends Fragment {
 
         my_recycler_view  = main_view.findViewById(R.id.my_recycler_view);
 
-       ArrayList<OffersPojo> list = makeAList();
-        adapter = new OffersAdapter(list, getActivity());
+//       ArrayList<OffersPojo> list = makeAList();
+        list = new ArrayList<>();
+
 
         layoutManager = new LinearLayoutManager(getActivity());
         my_recycler_view.setLayoutManager(layoutManager);
@@ -179,6 +197,52 @@ public class AllOffersFragment extends Fragment {
         my_recycler_view.setAdapter(adapter);
 
 
+
+        getAllOffers();
+    }
+
+    private void getAllOffers() {
+
+        Call<ResponseBody> call = MyApplication.getSerivce().getOffers_("1");
+        call.enqueue(new Listener(new RetrofitService() {
+            @Override
+            public void onSuccess(String result, int pos, Throwable t) {
+
+                if (pos==0){
+
+                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                    parseJson(result);
+                }
+
+            }
+        }, "Fetching...", true, getActivity()));
+
+    }
+
+    private void parseJson(String result) {
+
+        try {
+            JSONObject obj = new JSONObject(result);
+
+
+
+            JSONArray jsonarray = obj.getJSONArray("coupans");
+            Type listType = new TypeToken<ArrayList<Coupans>>(){}.getType();
+            List<Coupans> allCoupons =
+                    new GsonBuilder().create().fromJson(jsonarray.toString(), listType);
+
+            for(Coupans coupon: allCoupons){
+                list.add(coupon);
+            }
+
+
+
+            adapter = new OffersAdapter(list, getActivity());
+            my_recycler_view.setAdapter(adapter);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private ArrayList<OffersPojo> makeAList() {

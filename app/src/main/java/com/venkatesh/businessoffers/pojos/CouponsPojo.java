@@ -8,7 +8,7 @@ import java.io.File;
 
 public class CouponsPojo {
 
-    public String title, description,  token, business_account_id;
+    public String title, description,  token, business_account_id, id;
     public File avatar;
     public Coupon coupan;
 

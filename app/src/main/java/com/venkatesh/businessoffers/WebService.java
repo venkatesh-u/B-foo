@@ -18,6 +18,7 @@ import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.PartMap;
 import retrofit.http.Query;
 import retrofit.http.QueryMap;
@@ -819,9 +820,12 @@ public interface WebService {
     @POST("/create_coupan")
     Call<ResponseBody> createCoupon(@Body CouponsPojo pojo);
 
-    @GET("/show_coupan_details")
+    @GET("/get_all_coupans")
     Call<ResponseBody> getOffers_(@Query("business_account_id") String business_id);
 
     @DELETE("/logout")
     Call<ResponseBody> userSignout();
+
+    @POST("/update_coupan")
+    Call<ResponseBody> updateOffer_(@Body CouponsPojo pojo);
 }

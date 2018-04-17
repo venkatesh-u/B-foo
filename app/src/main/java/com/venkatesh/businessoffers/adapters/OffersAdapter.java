@@ -2,6 +2,7 @@ package com.venkatesh.businessoffers.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.venkatesh.businessoffers.AddOfferActivity;
 import com.venkatesh.businessoffers.R;
 import com.venkatesh.businessoffers.Utils;
 import com.venkatesh.businessoffers.fragments.AllOffersFragment;
+import com.venkatesh.businessoffers.pojos.Coupans;
 import com.venkatesh.businessoffers.pojos.OffersPojo;
 
 import java.util.ArrayList;
@@ -26,12 +28,18 @@ import java.util.ArrayList;
 public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHolder> {
 
     private final Activity activity;
-    private ArrayList<OffersPojo> dataSet;
+    private static ArrayList<Coupans> dataSet;
 
 
     public void clearDataSet() {
         dataSet=new ArrayList<>();
 //        notifyDataSetChanged();
+    }
+
+    public static void addDataTOList(ArrayList<Coupans> list) {
+        if (dataSet!=null && dataSet.size()!=0){
+            dataSet = list;
+        }
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -48,7 +56,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         }
     }
 
-    public OffersAdapter(ArrayList<OffersPojo> data, Activity allOffersFragment) {
+    public OffersAdapter(ArrayList<Coupans> data, Activity allOffersFragment) {
         this.dataSet = data;
         activity = allOffersFragment;
     }
@@ -80,6 +88,9 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
 
                 Intent intent = new Intent(activity, AddOfferActivity.class);
                 intent.putExtra("From_Offers_Adapter", true);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("offer_obj", dataSet.get(listPosition));
+                intent.putExtra("bundle", dataSet.get(listPosition));
                 activity.startActivityForResult(intent, Utils.REQ_CODE_EDIT_OFFER);
             }
         });
