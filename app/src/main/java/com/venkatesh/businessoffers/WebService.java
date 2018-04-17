@@ -828,4 +828,6 @@ public interface WebService {
 
     @POST("/update_coupan")
     Call<ResponseBody> updateOffer_(@Body CouponsPojo pojo);
+
+    Call<ResponseBody> deleteOffer_(String id);
 }

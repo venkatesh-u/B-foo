@@ -99,8 +99,9 @@ public class AddOfferActivity extends BaseActivity implements View.OnClickListen
             btn_del_offer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setResult(RESULT_OK);
-                    finish();
+
+                    deleteOffer();
+
                 }
             });
 
@@ -113,6 +114,17 @@ public class AddOfferActivity extends BaseActivity implements View.OnClickListen
 
             btn_add_offer.setText("EDIT");
         }
+    }
+
+    private void deleteOffer() {
+
+        Call<ResponseBody> call = MyApplication.getSerivce().deleteOffer_(coupan.id);
+        call.enqueue(new Listener(new RetrofitService() {
+            @Override
+            public void onSuccess(String result, int pos, Throwable t) {
+
+            }
+        }, "Deleting offer...", true, this));
     }
 
 
