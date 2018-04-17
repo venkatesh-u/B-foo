@@ -27,13 +27,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.okhttp.ResponseBody;
@@ -506,7 +503,7 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
 
                 confirmOtp();
 //                finish();
-//                startActivity(new Intent(BusinessRegistration.this, Main2Activity.class));
+//                startActivity(new Intent(BusinessRegistration.this, BusinessMainActivity.class));
 
             } else {
 //                mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -631,7 +628,7 @@ public class BusinessRegistration extends BaseActivity implements LoaderCallback
                 loading.dismiss();
 
                 //Starting a new activity
-                startActivity(new Intent(BusinessRegistration.this, Main2Activity.class));
+                startActivity(new Intent(BusinessRegistration.this, BusinessMainActivity.class));
 
 
 //                //Getting the user entered otp from edittext

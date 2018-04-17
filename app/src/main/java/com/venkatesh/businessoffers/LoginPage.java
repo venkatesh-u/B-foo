@@ -2,7 +2,6 @@ package com.venkatesh.businessoffers;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
@@ -269,7 +268,7 @@ public class LoginPage extends BaseActivity {
                     alertDialog.dismiss();
                     Toast.makeText(LoginPage.this, "OTP verified.", Toast.LENGTH_SHORT).show();
 //                    showProgress(false);
-                    startActivity(new Intent(LoginPage.this, Main2Activity.class));
+                    startActivity(new Intent(LoginPage.this, BusinessMainActivity.class));
 
 //                    openOTPDialogue();
 

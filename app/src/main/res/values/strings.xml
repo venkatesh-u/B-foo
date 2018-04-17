@@ -39,5 +39,9 @@
     <string name="item_preview_country">Israel (‫ישראל‬‎)</string>
     <string name="item_preview_dialCode">+972</string>
     <string name="google_places_api">AIzaSyBtsPuOFakB14gAg_4W1I21Kb1L6CwTmbM</string>
+    <string name="offers_">offers</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -19,14 +19,13 @@ public class UtilsServer {
 
 public static final String URL =
 //        "https://mycoupans.herokuapp.com/";
-"http://172.16.18.105:9000";
 
 //        url;
 // "https://qa-api.eteki.com/";
 
 //  public static final String URL =
 // "https://demo-api.eteki.com";
-    // "http://192.168.199.113:3000/";
+     "http://192.168.0.110:3000/";
 
 //	public static final String URL="https://api.eteki.com/";
     public static final String URL_API = URL;
