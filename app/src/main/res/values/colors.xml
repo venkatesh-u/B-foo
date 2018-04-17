@@ -13,5 +13,10 @@
     <color name="bluee">#60CEFD</color>
     <color name="black_overlay">#66000000</color>
     <color name="textcolor_light_grey">#757575</color>
+    <color name="background">#dddddd</color>
+
+    <color name="red_color_dark">#D50000</color>
+    <color name="red_color_light">#D32F2F</color>
+    <color name="blue_color_dark">#1565C0</color>
 
 </resources>

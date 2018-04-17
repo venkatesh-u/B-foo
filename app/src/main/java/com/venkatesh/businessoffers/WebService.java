@@ -10,6 +10,7 @@ import java.util.Map;
 
 import retrofit.Call;
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
@@ -89,8 +90,7 @@ public interface WebService {
      * Sign out from session
      */
 
-    @POST(UtilsServer.USER_LOGOUT)
-    Call<ResponseBody> userSignout();
+
 
     /**
      * Clearing all other session for this user
@@ -821,4 +821,7 @@ public interface WebService {
 
     @GET("/show_coupan_details")
     Call<ResponseBody> getOffers_(@Query("business_account_id") String business_id);
+
+    @DELETE("/logout")
+    Call<ResponseBody> userSignout();
 }

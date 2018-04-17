@@ -1,29 +1,28 @@
 package com.venkatesh.businessoffers;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.squareup.okhttp.ResponseBody;
 import com.venkatesh.businessoffers.pojos.CouponsPojo;
 import com.venkatesh.businessoffers.storage.PreferencesData;
 
 import java.io.File;
-
 import retrofit.Call;
 
 public class AddOfferActivity extends BaseActivity implements View.OnClickListener {
     EditText et_description, et_title;
-    Button btn_add_offer;
+    Button btn_add_offer, btn_del_offer;
 
-
+    boolean from_Offers_Adapter;
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.btn_add_offer){
-
             validateOfferData();
         }
     }
@@ -33,10 +32,30 @@ public class AddOfferActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_offer);
 
-       et_title = findViewById(R.id.et_offer_title);
-       et_description = findViewById(R.id.et_offer_desc);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        from_Offers_Adapter  = getIntent().getBooleanExtra("From_Offers_Adapter", false);
+
+        setViewEditOffer();
+
+        et_title = findViewById(R.id.et_offer_title);
+        et_description = findViewById(R.id.et_offer_desc);
         btn_add_offer = findViewById(R.id.btn_add_offer);
         btn_add_offer.setOnClickListener(this);
+    }
+
+    private void setViewEditOffer() {
+        if (from_Offers_Adapter){
+            btn_del_offer = findViewById(R.id.btn_delete_offer);
+            btn_del_offer.setVisibility(View.VISIBLE);
+            btn_del_offer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setResult(RESULT_OK);
+                    finish();
+                }
+            });
+        }
     }
 
 
@@ -83,6 +102,16 @@ public class AddOfferActivity extends BaseActivity implements View.OnClickListen
                }
            }
        }, "", true, this));
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()== android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
 
     }
 }

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -21,9 +23,11 @@ import android.view.animation.LinearInterpolator;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 
 import com.squareup.okhttp.ResponseBody;
+import com.venkatesh.businessoffers.interfaces.ConformationListener;
 import com.venkatesh.businessoffers.utilities.UtilsServer;
 
 import java.io.File;
@@ -47,6 +51,7 @@ public class Utils {
     public static final int PICK_IMAGE = 1;
     public static final int CROP_PIC = 2;
     public static final int CAPTURE_IMAGE = 3;
+    public static int REQ_CODE_EDIT_OFFER=999;
     public static final String STATUS_SCHEDULED = "Scheduled";
     public static final String STATUS_IN_PROGRESS = "In Progress";
     public static final String STATUS_PENDING_PAYMENT = "Pending Payment";
@@ -245,31 +250,31 @@ public class Utils {
         v.requestFocus();
     }
 
-//    public static void showErrorAlert(String title, final String msg, final Activity act, final ErrorAlertCompleted alertCompleted) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-//        if (title != null)
-//            builder.setTitle(title);
-//        else
-//            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        builder.setMessage(msg);
+    public static void showErrorAlert(String title, final String msg, final Activity act, final ErrorAlertCompleted alertCompleted) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+        if (title != null)
+            builder.setTitle(title);
+        else
+            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        builder.setMessage(msg);
 //        if (msg.equals(UtilsServer.MSG_AUTH_FAILED)) {
 //            parseJsonFeed(act);
 //        }
-//        builder.setNeutralButton("OK",
-//                new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                        if (alertCompleted != null)
-//                            alertCompleted.OkaySelected();
-//
-//                    }
-//                });
-//        builder.setCancelable(false);
-//        builder.setIcon(android.R.drawable.ic_dialog_alert);
-//        builder.show();
-//    }
+        builder.setNeutralButton("OK",
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if (alertCompleted != null)
+                            alertCompleted.OkaySelected();
+
+                    }
+                });
+        builder.setCancelable(false);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.show();
+    }
 
     /////////
     /*public static Snackbar showIndefiniteSnackBar(Activity act,String msg){
@@ -560,6 +565,7 @@ public class Utils {
             public void onSuccess(String result, int pos, Throwable t) {
                 if (pos == 0) {
 //                    parseJsonFeed(act);
+                    Toast.makeText(act, "Logged out Successfully", Toast.LENGTH_SHORT).show();
                 }
             }
         }, null, true, act));
@@ -1451,6 +1457,49 @@ public class Utils {
             e.printStackTrace();
         }
         return utcFormat.format(timestamp) + "Z";
+    }
+
+
+    public static Dialog globalShowConfirmationDialog(Activity act, String title, String msg, final ConformationListener cl) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+        if (title != null)
+            builder.setTitle(title);
+        else
+            builder.create().requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        builder.setMessage(msg);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (cl != null)
+                    cl.conformed();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.setCancelable(true);
+        builder.setIcon(R.drawable.ic_info_outline_black);
+//        Dialog dialog=builder.create();
+//        builder.show();
+        return builder.create();
+
+    }
+
+    /**
+     * This method network error dialogue when network is not available.
+     */
+    public static void showNetworkErrorDilaogue(Activity activity) {
+        Utils.showErrorAlert("Network error", "Please turn on your mobile data", activity, new Utils.ErrorAlertCompleted() {
+            @Override
+            public void OkaySelected() {
+
+            }
+        });
     }
 
 }
