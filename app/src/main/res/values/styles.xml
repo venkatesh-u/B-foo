@@ -33,14 +33,15 @@
     </style>
 
     <!--<style name="textview_name" parent="@style/textview_parent">-->
-        <!--<item name="android:textSize">@dimen/text_name</item>-->
-        <!--<item name="android:textStyle">bold</item>-->
+    <!--<item name="android:textSize">@dimen/text_name</item>-->
+    <!--<item name="android:textStyle">bold</item>-->
     <!--</style>-->
 
     <style name="textview_parent">
         <item name="android:textColor">@color/textcolor_light_grey</item>
         <item name="android:typeface">sans</item>
     </style>
+
     <style name="textview_header_normal" parent="@style/textview_header">
         <item name="android:textStyle">normal</item>
     </style>

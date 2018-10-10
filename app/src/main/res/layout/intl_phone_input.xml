@@ -12,16 +12,20 @@
         android:layout_height="wrap_content"
         android:id="@+id/intl_phone_edit__country"
         android:dropDownWidth="350dp"
-        tools:ignore="RtlSymmetry" />
+        tools:ignore="RtlSymmetry"
+        android:clickable="false"
+        android:visibility="gone"
+        />
     <TextView
         android:layout_marginLeft="@dimen/view_header_seperator"
         android:id="@+id/tvCode"
         android:layout_alignBaseline="@+id/intl_phone_edit__phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="+91"
         />
 
-    <com.venkatesh.businessoffers.customViews.MaterialEditText
+    <com.venkatesh.foodapp.customViews.MaterialEditText
         android:layout_toRightOf="@+id/code"
         style="@style/margins"
         android:layout_width="match_parent"
@@ -29,6 +33,8 @@
         android:id="@+id/intl_phone_edit__phone"
         android:singleLine="true"
         android:inputType="phone"
-        android:digits="@string/digits_numeric_only1"/>
+        android:digits="@string/digits_numeric_only1"
+        android:hint="Mobile Number"
+        />
 
 </LinearLayout>

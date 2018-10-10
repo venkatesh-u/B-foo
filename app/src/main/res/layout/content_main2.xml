@@ -5,17 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.venkatesh.businessoffers.BusinessMainActivity"
+    tools:context="com.venkatesh.foodapp.BusinessMainActivity"
     tools:showIn="@layout/app_bar_main2">
-
 
         <FrameLayout
             android:id="@+id/frame_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </FrameLayout>
-
-
-
 
 </LinearLayout>

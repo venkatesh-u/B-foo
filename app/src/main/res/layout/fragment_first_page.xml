@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <com.synnapps.carouselview.CarouselView
+        android:id="@+id/carouselView"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        app:fillColor="#ffffff"
+        app:pageColor="#00000000"
+        app:radius="6dp"
+        app:slideInterval="3000"
+        app:strokeColor="#FF777777"
+        app:strokeWidth="1dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:gravity="center"
+        >
+        <TextView
+            android:id="@+id/wish_id"
+            android:text="- Restaurants -"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/textview_header"
+            android:layout_weight=".3"
+            android:textStyle="italic"/>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_user"
+            android:text="username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".7"
+            style="@style/TextAppearance.AppCompat.Subhead"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_margin="2dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    </LinearLayout>>
+
+    <GridView
+        android:visibility="gone"
+        android:id="@+id/gridview"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:numColumns="2"
+        android:layout_margin="4dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        />
+
+</LinearLayout>

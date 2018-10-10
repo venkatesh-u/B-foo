@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.venkatesh.businessoffers.fragments.AllOffersFragment"
+    tools:context="com.venkatesh.foodapp.fragments.AllOffersFragment"
     android:background="@color/background">
 <!--<<<<<<< HEAD
     tools:context="com.venkatesh.businessoffers.fragments.AllOffersFragment">

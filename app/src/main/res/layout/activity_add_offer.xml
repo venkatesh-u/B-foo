@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.venkatesh.businessoffers.AddOfferActivity"
+    tools:context="com.venkatesh.foodapp.AddOfferActivity"
     android:orientation="vertical">
 
 
-    <com.venkatesh.businessoffers.customViews.MaterialEditText
+    <com.venkatesh.foodapp.customViews.MaterialEditText
         android:id="@+id/et_offer_title"
         style="@style/margins"
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
         android:singleLine="true"
         app:floatingLabel="highlight" />
 
-    <com.venkatesh.businessoffers.customViews.MaterialEditText
+    <com.venkatesh.foodapp.customViews.MaterialEditText
         android:id="@+id/et_offer_desc"
         style="@style/margins"
         android:layout_width="match_parent"

@@ -9,7 +9,7 @@
     android:gravity="center">
 
 
-    <com.venkatesh.businessoffers.intlphoneinput.IntlPhoneInput
+    <com.venkatesh.foodapp.intlphoneinput.IntlPhoneInput
         android:id="@+id/my_phone_input"
         style="@style/margins"
         android:layout_width="match_parent"
