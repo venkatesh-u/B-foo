@@ -50,5 +50,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="dashboard">Dashboard</string>
     <string name="gallery">Gallery</string>
+    <string name="Rs">\u20B9</string>
 
 </resources>

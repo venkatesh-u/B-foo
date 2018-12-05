@@ -20,13 +20,14 @@ import com.venkatesh.foodapp.pojos.DataModel;
 import java.util.ArrayList;
 
 
-public class FoodItemsAdapter extends RecyclerView.Adapter<FoodItemsAdapter.ViewHolder> {
+public class CategoryItemsAdapter extends RecyclerView.Adapter<CategoryItemsAdapter.ViewHolder> {
     ArrayList<DataModel> mValues;
     Context mContext;
     protected ItemListener mListener;
     Activity activity;
+    public static final int REQ_CODE_1 = 1;
 
-    public FoodItemsAdapter(Context context, ArrayList values, ItemListener itemListener) {
+    public CategoryItemsAdapter(Context context, ArrayList values, ItemListener itemListener) {
 
         mValues = values;
         mContext = context;
@@ -35,25 +36,27 @@ public class FoodItemsAdapter extends RecyclerView.Adapter<FoodItemsAdapter.View
     }
 
     @Override
-    public FoodItemsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_view_food_item, parent, false);
+    public CategoryItemsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.recyclerview_food_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(FoodItemsAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(CategoryItemsAdapter.ViewHolder holder, final int position) {
 //        holder.setData(mValues.get(position));
         final DataModel item = mValues.get(position);
         holder.textView.setText(item.text);
         holder.imageView.setImageResource(item.drawable);
         holder.linearLayout.setBackgroundColor(Color.parseColor(item.color));
+        holder.tv_item_price.setText(String.valueOf(item.price));
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, ""+position, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(activity, FoodItems.class);
-                intent.putExtra("restaurant_name", item.text);
-                activity.startActivity(intent);
+//                Toast.makeText(mContext, ""+position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity, AddItemToCart.class);
+                intent.putExtra("Item", item.text);
+                intent.putExtra("item_Cost", item.price);
+                activity.startActivityForResult(intent, REQ_CODE_1);
             }
         });
     }
@@ -65,7 +68,7 @@ public class FoodItemsAdapter extends RecyclerView.Adapter<FoodItemsAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textView;
+        public TextView textView, tv_item_price;
         public ImageView imageView;
         public LinearLayout linearLayout;
         CardView cardView ;
@@ -76,6 +79,7 @@ public class FoodItemsAdapter extends RecyclerView.Adapter<FoodItemsAdapter.View
 
 //            v.setOnClickListener(this);
             textView = (TextView) v.findViewById(R.id.textView);
+            tv_item_price = v.findViewById(R.id.tv_item_price);
             imageView = (ImageView) v.findViewById(R.id.imageView);
             linearLayout =  v.findViewById(R.id.linearLayout);
             cardView =  v.findViewById(R.id.cardView);

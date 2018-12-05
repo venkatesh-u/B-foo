@@ -1,16 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.venkatesh.foodapp.food.FoodItems">
+    tools:context="com.venkatesh.foodapp.food.FoodCategories">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_above="@+id/rl_cartviewBottom"
+        />
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rl_cartviewBottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_cart_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/color_white"
+            android:layout_alignBaseline="@+id/tv_cart_items_count"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_cart_items_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CHECK OUT"
+            android:layout_centerInParent="true"
+            android:textColor="@color/color_white"/>
+
+        <TextView
+            android:id="@+id/tv_cart_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/color_white"
+            android:layout_alignBaseline="@+id/tv_cart_items_count"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="8dp"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

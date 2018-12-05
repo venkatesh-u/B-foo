@@ -83,7 +83,7 @@ public class Restaurants extends Fragment implements RestaurantsAdapter.ItemList
             public void onItemClick(AdapterView<?> parent,
                                     View v, int position, long id) {
                 Toast.makeText(getActivity(), "Grid Item " + (position ) + " Selected", Toast.LENGTH_LONG).show();
-                Intent intent =  new Intent(getActivity(), FoodItems.class);
+                Intent intent =  new Intent(getActivity(), FoodCategories.class);
                 intent.putExtra("pos", position);
                 getActivity().startActivity(intent);
 
@@ -102,18 +102,18 @@ public class Restaurants extends Fragment implements RestaurantsAdapter.ItemList
 
         recyclerView =  mv.findViewById(R.id.recyclerView);
         arrayList = new ArrayList();
-        arrayList.add(new DataModel("Paradise", R.drawable.food1, "#ffffff"));
-        arrayList.add(new DataModel("Barbeque", R.drawable.food3, "#ffffff"));
-        arrayList.add(new DataModel("Helapuri", R.drawable.food2, "#ffffff"));
-        arrayList.add(new DataModel("Alpha", R.drawable.food4, "#ffffff"));
-        arrayList.add(new DataModel("Multi Cushine", R.drawable.food1, "#ffffff"));
-        arrayList.add(new DataModel("Jeshan", R.drawable.food2, "#ffffff"));
-        arrayList.add(new DataModel("Avakai", R.drawable.food3, "#ffffff"));
-        arrayList.add(new DataModel("Vivana", R.drawable.food4, "#ffffff"));
-        arrayList.add(new DataModel("Raju's Kitchen", R.drawable.food1, "#ffffff"));
-        arrayList.add(new DataModel("Satyam", R.drawable.food3, "#ffffff"));
-        arrayList.add(new DataModel("Punjabi Dhaba", R.drawable.food2, "#ffffff"));
-        arrayList.add(new DataModel("Food House", R.drawable.food4, "#ffffff"));
+        arrayList.add(new DataModel("Paradise", R.drawable.food1, "#ffffff", 220, 220));
+        arrayList.add(new DataModel("Barbeque", R.drawable.food3, "#ffffff", 220, 220));
+        arrayList.add(new DataModel("Helapuri", R.drawable.food2, "#ffffff", 220, 220));
+        arrayList.add(new DataModel("Alpha", R.drawable.food4, "#ffffff", 220, 220));
+        arrayList.add(new DataModel("Multi Cushine", R.drawable.food1, "#ffffff", 220, 220));
+        arrayList.add(new DataModel("Jeshan", R.drawable.food2, "#ffffff", 220, 220));
+        arrayList.add(new DataModel("Avakai", R.drawable.food3, "#ffffff", 220, 220));
+        arrayList.add(new DataModel("Vivana", R.drawable.food4, "#ffffff", 220, 220));
+        arrayList.add(new DataModel("Raju's Kitchen", R.drawable.food1, "#ffffff", 220, 220));
+        arrayList.add(new DataModel("Satyam", R.drawable.food3, "#ffffff", 220, 220));
+        arrayList.add(new DataModel("Punjabi Dhaba", R.drawable.food2, "#ffffff", 220, 220));
+        arrayList.add(new DataModel("Food House", R.drawable.food4, "#ffffff", 220, 220));
 
         RestaurantsAdapter adapter = new RestaurantsAdapter(getActivity(), arrayList, this);
         recyclerView.setAdapter(adapter);

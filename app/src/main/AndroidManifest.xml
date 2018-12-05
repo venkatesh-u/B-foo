@@ -12,14 +12,15 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name="com.venkatesh.foodapp.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Sample"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:label">
+        tools:replace="android:label,android:icon"
+        >
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/geocoding_key" />
@@ -27,9 +28,9 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name="com.venkatesh.foodapp.MapsActivityCurrentPlace" />
+        <activity android:name=".MapsActivityCurrentPlace" />
         <activity
-            android:name="com.venkatesh.foodapp.InitialScreenActivity"
+            android:name=".InitialScreenActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -41,7 +42,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name="com.venkatesh.foodapp.BusinessMainActivity"
+            android:name=".BusinessMainActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -49,14 +50,14 @@
 
         </activity>
         <!-- <activity android:name=".PhonevalidationActivity"></activity> -->
-        <activity android:name="com.venkatesh.foodapp.LoginPage" />
-        <activity android:name="com.venkatesh.foodapp.BusinessRegistration" />
+        <activity android:name=".LoginPage" />
+        <activity android:name=".BusinessRegistration" />
         <activity
-            android:name="com.venkatesh.foodapp.AddOfferActivity"
+            android:name=".AddOfferActivity"
             android:label="Add Offer" />
         <activity
-            android:name="com.venkatesh.foodapp.food.Dashboard"
-            android:label="@string/title_activity_dashboard"
+            android:name=".food.Dashboard"
+            android:label="Hungry Corner"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,7 +65,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.venkatesh.foodapp.food.FoodItems"></activity>
+        <activity android:name=".food.FoodCategories" />
+        <activity android:name=".food.CategoryItems" />
+        <activity android:name=".food.AddItemToCart" />
+        <activity android:name=".food.Cart"
+            android:label="Your Cart"></activity>
     </application>
 
 </manifest>

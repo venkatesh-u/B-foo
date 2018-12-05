@@ -1,10 +1,13 @@
 package com.venkatesh.foodapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+
+import com.venkatesh.foodapp.food.FoodCategories;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -42,6 +45,12 @@ public class PreferencesData {
 	public static final String PREF_ON_OFFLINE="on_off_line";
 	public static  String PREF_AUTO_SOURCE_ENABLED="auto_source";
 	public static final String PREF_PROFILE_SINGLEPAGE="singlepage";
+
+	//FoodApp
+
+	public static final String CART_ITEMS_COUNT = "cartItemsCount";
+	public static final String CART_VALUE = "cartValue";
+	public static final String RESTAURANT_NAME = "restaurantName";
 
 
 	//public static final String PREF_PROFILE="profile";
@@ -354,8 +363,52 @@ public class PreferencesData {
 
 	public static String getFlag(String key)
 	{
-
 		return getSharedPreferences().getString(key, "");
+	}
+
+	public static void putCartItemsCount(int cartItemCount, Context con){
+		if(preferences==null)
+			preferences=con.getSharedPreferences(SHARED_PREF, 0);
+		Editor editor = getSharedPreferences().edit();
+		editor.putInt(CART_ITEMS_COUNT, cartItemCount);
+		editor.apply();
+
+	}
+
+	public static int getCartItemsCount(Activity con) {
+		if(preferences==null)
+			preferences = con.getSharedPreferences(SHARED_PREF, 0);
+		return getSharedPreferences().getInt(CART_ITEMS_COUNT, 0);
+	}
+
+
+	public static void putCartValue(String cartItemCount, Context con){
+		if(preferences==null)
+			preferences=con.getSharedPreferences(SHARED_PREF, 0);
+		Editor editor = getSharedPreferences().edit();
+		editor.putString(CART_VALUE, cartItemCount);
+		editor.apply();
+	}
+
+	public static String getCartValue(Activity con) {
+		if(preferences==null)
+			preferences = con.getSharedPreferences(SHARED_PREF, 0);
+		return getSharedPreferences().getString(CART_VALUE, "");
+	}
+
+
+	public static void putRestaurantName(Activity con, String restaurant_name) {
+		if(preferences==null)
+			preferences=con.getSharedPreferences(SHARED_PREF, 0);
+		Editor editor = getSharedPreferences().edit();
+		editor.putString(RESTAURANT_NAME, restaurant_name);
+		editor.apply();
+	}
+
+	public static String getRestaurantName(Activity con) {
+		if(preferences==null)
+			preferences = con.getSharedPreferences(SHARED_PREF, 0);
+		return getSharedPreferences().getString(RESTAURANT_NAME, "");
 	}
 
 }

@@ -4,13 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.venkatesh.foodapp.R;
 import com.venkatesh.foodapp.pojos.DataModel;
@@ -18,13 +20,13 @@ import com.venkatesh.foodapp.pojos.DataModel;
 import java.util.ArrayList;
 
 
-public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewHolder> {
+public class FoodCategoriesAdapter extends RecyclerView.Adapter<FoodCategoriesAdapter.ViewHolder> {
     ArrayList<DataModel> mValues;
     Context mContext;
     protected ItemListener mListener;
     Activity activity;
 
-    public RestaurantsAdapter(Context context, ArrayList values, ItemListener itemListener) {
+    public FoodCategoriesAdapter(Context context, ArrayList values, ItemListener itemListener) {
 
         mValues = values;
         mContext = context;
@@ -33,23 +35,25 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
     }
 
     @Override
-    public RestaurantsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_view_item, parent, false);
+    public FoodCategoriesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_view_category_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RestaurantsAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(FoodCategoriesAdapter.ViewHolder holder, final int position) {
 //        holder.setData(mValues.get(position));
         final DataModel item = mValues.get(position);
         holder.textView.setText(item.text);
         holder.imageView.setImageResource(item.drawable);
-        holder.frameLayout.setBackgroundColor(Color.parseColor(item.color));
-        holder.frameLayout.setOnClickListener(new View.OnClickListener() {
+        holder.linearLayout.setBackgroundColor(Color.parseColor(item.color));
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, FoodCategories.class);
-                intent.putExtra("restaurant_name", item.text);
+//                Toast.makeText(mContext, ""+position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity, CategoryItems.class);
+                intent.putExtra("item_category", item.text);
+                intent.putExtra("category_id", item.catId);
                 activity.startActivity(intent);
             }
         });
@@ -64,7 +68,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
 
         public TextView textView;
         public ImageView imageView;
-        public FrameLayout frameLayout;
+        public LinearLayout linearLayout;
+        CardView cardView ;
         DataModel item;
 
         public ViewHolder(View v) {
@@ -73,7 +78,9 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
 //            v.setOnClickListener(this);
             textView = (TextView) v.findViewById(R.id.textView);
             imageView = (ImageView) v.findViewById(R.id.imageView);
-            frameLayout = (FrameLayout) v.findViewById(R.id.relativeLayout);
+            linearLayout =  v.findViewById(R.id.linearLayout);
+            cardView =  v.findViewById(R.id.cardView);
+
         }
     }
 
